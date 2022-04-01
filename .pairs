@@ -1,0 +1,12 @@
+pairs:
+  dr: Doc Ritezel; doc
+  jp: Jeff Parr; jp
+  ep: Erika Pacheco; erika
+  mo: Matt Olenick; matto
+  vn: Van Nieri; van
+  el: Erica Riehl-Love; erica
+email:
+  prefix: pair
+  domain: ministryofvelocity.com
+email_addresses:
+global: true
