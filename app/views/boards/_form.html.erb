@@ -16,6 +16,16 @@
     <%= form.text_field :name %>
   </div>
 
+  <h3>Columns</h3>
+  <div id='columns'>
+    <%= f.fields_for :columns do |task| %>
+      <%= render 'column_fields', :f => task %>
+    <% end %>
+    <div class='links'>
+      <%= link_to_add_association 'add column', f, :columns %>
+    </div>
+  </div>
+
   <div>
     <%= form.submit %>
   </div>
