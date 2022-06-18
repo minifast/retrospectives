@@ -12,20 +12,21 @@
   <% end %>
 
   <div>
-    <%= form.label :name, style: "display: block" %>
+    <%= form.label t('board_name'), style: "display: block" %>
     <%= form.text_field :name %>
   </div>
 
-  <h3>Columns</h3>
+  <h3><%= t('board_columns') %></h3>
   <div id='columns'>
-    <%= f.fields_for :columns do |task| %>
-      <%= render 'column_fields', :f => task %>
+    <%= form.fields_for :columns do |column| %>
+      <%= render 'column_fields', form: column %>
     <% end %>
     <div class='links'>
-      <%= link_to_add_association 'add column', f, :columns %>
+      <%= link_to_add_association button_tag(t('add_column'), type: 'button'), form, :columns, data: { association_insertion_node: '#columns', association_insertion_method: :append } %>
     </div>
   </div>
 
+  <br>
   <div>
     <%= form.submit %>
   </div>

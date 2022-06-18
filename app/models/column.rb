@@ -4,6 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  name       :string
+#  title      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  board_id   :bigint           not null
@@ -17,5 +18,5 @@
 #  fk_rails_...  (board_id => boards.id)
 #
 class Column < ApplicationRecord
-  belongs_to :board
+  belongs_to :board, optional: true
 end

@@ -30,4 +30,7 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  add_column: Add column
+  board_columns: Board columns
+  board_name: Board name
+  new_retro_board: New retro board
