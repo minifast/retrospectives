@@ -67,5 +67,6 @@ class BoardsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def board_params
       params.require(:board).permit(:name, columns_attributes: Column.attribute_names.map(&:to_sym).push(:_destroy))
+      # params.require(:board).permit(:name, columns_attributes: [:id, :name, :title, :_destroy])
     end
 end

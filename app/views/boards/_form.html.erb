@@ -22,7 +22,7 @@
       <%= render 'column_fields', form: column %>
     <% end %>
     <div class='links'>
-      <%= link_to_add_association button_tag(t('add_column'), type: 'button'), form, :columns, data: { association_insertion_node: '#columns', association_insertion_method: :append } %>
+      <%= link_to_add_association "AddColumn", form, :columns %>
     </div>
   </div>
 
