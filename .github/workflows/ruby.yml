@@ -39,24 +39,12 @@ jobs:
       - name: Check out repo code
         uses: actions/checkout@v3
       - name: Set up Ruby
-        uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+        uses: ruby/setup-ruby@v1
       - name: Install dependencies
-        run: |
-          bundle install
-          bundle exec rails webpacker:install
+        run: bundle install
       - name: Create DB
         run: |
           cp config/database.yml.github-actions config/database.yml
           bin/rails db:prepare
-      - name: Assets Cache
-        id: assets-cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            public/assets
-            public/packs-test
-          key: ${{ runner.os }}-assets
-      - name: Precompile Assets
-        run: bundle exec rails assets:precompile
       - name: Ruby tests
-        run: bundle exec rspec
+        run: bin/rspec
