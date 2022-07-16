@@ -2,25 +2,20 @@ class BoardsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_board, only: %i[ show edit update destroy ]
 
-  # GET /boards or /boards.json
   def index
     @boards = Board.all
   end
 
-  # GET /boards/1 or /boards/1.json
   def show
   end
 
-  # GET /boards/new
   def new
     @board = Board.new
   end
 
-  # GET /boards/1/edit
   def edit
   end
 
-  # POST /boards or /boards.json
   def create
     @board = Board.new(board_params)
 
@@ -35,7 +30,6 @@ class BoardsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /boards/1 or /boards/1.json
   def update
     respond_to do |format|
       if @board.update(board_params)
@@ -48,7 +42,6 @@ class BoardsController < ApplicationController
     end
   end
 
-  # DELETE /boards/1 or /boards/1.json
   def destroy
     @board.destroy
 
@@ -59,12 +52,10 @@ class BoardsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
     def set_board
       @board = Board.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def board_params
       params.require(:board).permit(:name)
     end
