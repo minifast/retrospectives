@@ -1,0 +1,8 @@
+<%= fields model: @board do |form| %>
+  <%= form.fields_for :columns, child_index: params[:index] do |column_form| %>
+    <%= turbo_frame_tag "column_#{column_form.index}" do %>
+      <%= column_form.hidden_field :id, value: params[:id] %>
+      <%= column_form.hidden_field :_destroy, value: true %>
+    <% end %>
+  <% end %>
+<% end %>

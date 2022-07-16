@@ -10,7 +10,7 @@ class BoardsController < ApplicationController
   end
 
   def new
-    @board = Board.new
+    @board = Board.new(columns: [Column.new])
   end
 
   def edit
@@ -57,6 +57,6 @@ class BoardsController < ApplicationController
     end
 
     def board_params
-      params.require(:board).permit(:name)
+      params.require(:board).permit(:name, columns_attributes: [:id, :name, :_destroy])
     end
 end

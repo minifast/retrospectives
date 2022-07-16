@@ -14,6 +14,7 @@ gem 'puma', '~> 5.0'
 gem 'rails', '~> 7.0.0'
 gem 'sass-rails', '>= 6'
 gem 'turbolinks', '~> 5'
+gem 'turbo-rails'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'webpacker', '~> 5.0'
 
@@ -38,3 +39,6 @@ group :test do
   gem 'shoulda-matchers', '~> 5.0'
   gem 'webdrivers'
 end
+
+# Use Redis for Action Cable
+gem "redis", "~> 4.0"

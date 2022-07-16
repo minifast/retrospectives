@@ -16,6 +16,19 @@
     <%= form.text_field :name %>
   </div>
 
+  <h4>Columns</h4>
+  <div>
+    <%= form.fields_for :columns do |column_form| %>
+      <%= render "columns/form", form: column_form %>
+    <% end %>
+  </div>
+
+  <%= form.submit "Add column",
+      formaction: column_path(@board.columns.size),
+      formmethod: :post,
+      formnovalidate: true,
+      id: "add-column" %>
+
   <div>
     <%= form.submit %>
   </div>

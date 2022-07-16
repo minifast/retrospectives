@@ -1,0 +1,15 @@
+<%= fields model: @board do |form| %>
+  <%= form.fields_for :columns, child_index: params[:index] do |column_form| %>
+    <%= turbo_stream.replace "add-column" do %>
+      <%= form.submit "Add column",
+            formaction: column_path(column_form.index.to_i + 1),
+            formmethod: :post, 
+            formnovalidate: true, 
+            id: "add-column" %>
+    <% end %>
+
+    <%= turbo_stream.append "columns" do %>
+      <%= render "form", form: column_form %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -3,5 +3,12 @@ Rails.application.routes.draw do
 
   resources :boards
 
+  resources :columns, only: [], param: :index do
+    member do
+      delete '(:id)' => "columns#destroy", as: ""
+      post '/' => "columns#create"
+    end
+  end
+
   root 'boards#index'
 end

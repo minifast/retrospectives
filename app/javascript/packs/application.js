@@ -8,6 +8,10 @@ import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 
+if (typeof window.Turbo == 'undefined') {
+  window.Turbo = require('@hotwired/turbo-rails').Turbo
+}
+
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()

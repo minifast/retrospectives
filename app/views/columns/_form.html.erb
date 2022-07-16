@@ -1,0 +1,14 @@
+<%= turbo_frame_tag "column#{form.index}" do %>
+  <%= form.hidden_field :id %>
+
+  <div>
+    <%= form.label :name, style: "display: block" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <%= form.submit "Delete column",
+        formaction: column_path(form.index, form.object.id),
+        formmethod: :delete,
+        formnovalidate: true,
+        data: { turbo_frame: "column_#{form.index}" } %>
+<% end %>
