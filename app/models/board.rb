@@ -13,4 +13,8 @@
 #
 class Board < ApplicationRecord
   validates :name, presence: true
+
+  has_many :columns, inverse_of: :board
+
+  accepts_nested_attributes_for :columns, reject_if: :all_blank, allow_destroy: true
 end
