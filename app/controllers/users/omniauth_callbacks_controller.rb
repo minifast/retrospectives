@@ -5,18 +5,20 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     attr_accessor :auth_hash
 
     delegate :info, to: :auth_hash
-    delegate :email, to: :info
+    delegate :email, :name, :image, to: :info
 
-    validates :email, presence: true
+    validates :email, :name, :image, presence: true
+    validates :email, format: {with: Devise.email_regexp, allow_blank: false}
 
     def user
-      @user ||= User.create_with(password: Devise.friendly_token[0,20]).create_or_find_by(email: email.downcase)
+      @user ||= User.create_with(name: name, image_url: image).find_or_create_by(email: email.downcase)
     end
 
     def save
       return false unless valid?
+      return false unless user.valid?
 
-      user
+      user.update(name: name, image_url: image)
       true
     end
   end
@@ -28,7 +30,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:notice] = I18n.t('devise.omniauth_callbacks.success', kind: 'Google')
       sign_in_and_redirect google_user.user, event: :authentication
     else
-      redirect_to new_user_session_path, alert: google_user.errors.full_messages.join("\n")
+      flash[:alert] = I18n.t('devise.omniauth_callbacks.failure', kind: 'Google', reason: google_user.user.errors.full_messages.join("\n"))
+      redirect_to root_path
     end
   end
 end
