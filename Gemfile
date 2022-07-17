@@ -7,6 +7,7 @@ gem "dotenv-rails", groups: [:development, :test]
 
 gem "bootsnap", require: false
 gem "devise"
+gem "hotwire-livereload", "~> 1.2"
 gem "image_processing", "~> 1.2"
 gem "importmap-rails"
 gem "omniauth-google-oauth2"
@@ -20,6 +21,8 @@ gem "stimulus-rails"
 gem "tailwindcss-rails"
 gem "turbo-rails"
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem "view_component"
+gem "inline_svg", github: 'minifast/inline_svg', branch: 'allow-propshaft-fallbacks'
 
 group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]

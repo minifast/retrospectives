@@ -1,4 +1,5 @@
 require 'capybara/rspec'
+require "view_component/test_helpers"
 
 Capybara.default_driver = :rack_test
 Capybara.javascript_driver = :selenium_chrome_headless
@@ -17,7 +18,17 @@ Capybara.register_driver :selenium_chrome_headless do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
 end
 
+module FakeCapybaraPage
+  def page
+    Capybara::HTML(response.body)
+  end
+end
+
 RSpec.configure do |config|
+  config.include FakeCapybaraPage, type: :request
+  config.include Capybara::RSpecMatchers, type: :request
+  config.include Capybara::RSpecMatchers, type: :component
+  config.include ViewComponent::TestHelpers, type: :component
   config.before(:each, type: :system) { driven_by(:rack_test) }
   config.before(:each, type: :system, js: true) { driven_by(:selenium_chrome_headless) }
 end

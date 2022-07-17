@@ -46,5 +46,7 @@ jobs:
         run: |
           cp config/database.yml.github-actions config/database.yml
           bin/rails db:prepare
+      - name: Build assets
+        run: bin/rails assets:precompile
       - name: Ruby tests
         run: bin/rspec

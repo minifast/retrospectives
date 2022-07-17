@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/minifast/inline_svg.git
+  revision: abde4798d0d0abcb932dabed9767c9facb0300fa
+  branch: allow-propshaft-fallbacks
+  specs:
+    inline_svg (1.8.0)
+      activesupport (>= 3.0)
+      nokogiri (>= 1.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -119,6 +128,9 @@ GEM
     globalid (1.0.0)
       activesupport (>= 5.0)
     hashie (5.0.0)
+    hotwire-livereload (1.2.0)
+      listen (>= 3.0.0)
+      rails (>= 6.0.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
@@ -131,6 +143,9 @@ GEM
     irb (1.4.1)
       reline (>= 0.3.0)
     jwt (2.4.1)
+    listen (3.7.1)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.18.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -229,6 +244,9 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.0.6)
+    rb-fsevent (0.11.1)
+    rb-inotify (0.10.1)
+      ffi (~> 1.0)
     redis (4.7.1)
     regexp_parser (2.5.0)
     reline (0.3.1)
@@ -278,6 +296,9 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    view_component (2.59.0)
+      activesupport (>= 5.0.0, < 8.0)
+      method_source (~> 1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.0)
@@ -309,8 +330,10 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
+  hotwire-livereload (~> 1.2)
   image_processing (~> 1.2)
   importmap-rails
+  inline_svg!
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
   pg (~> 1.1)
@@ -327,6 +350,7 @@ DEPENDENCIES
   tailwindcss-rails
   turbo-rails
   tzinfo-data
+  view_component
   web-console
   webdrivers
 
