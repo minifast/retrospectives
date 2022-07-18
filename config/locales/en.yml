@@ -31,3 +31,10 @@
 
 en:
   hello: "Hello world"
+  boards:
+    create:
+      success: Board was successfully created.
+    destroy:
+      success: Board was successfully destroyed.
+    update:
+      success: Board was successfully updated.

@@ -15,16 +15,16 @@ RSpec.describe Users::OmniauthCallbacksController, type: :request do
       end
 
       it 'creates a user' do
-        expect{get user_google_oauth2_omniauth_callback_path}.to change(User, :count).by(1)
+        expect { get user_google_oauth2_omniauth_callback_path }.to change(User, :count).by(1)
       end
 
       context 'when the user already exists' do
         before do
-          FactoryBot.create(:user, email: 'user@ministryofvelocity.com')
+          create(:user, email: 'user@ministryofvelocity.com')
         end
 
         it 'does not create a user' do
-          expect{get user_google_oauth2_omniauth_callback_path}.not_to change(User, :count)
+          expect { get user_google_oauth2_omniauth_callback_path }.not_to change(User, :count)
         end
       end
     end
@@ -42,7 +42,7 @@ RSpec.describe Users::OmniauthCallbacksController, type: :request do
       end
 
       it 'does not create a user' do
-        expect{get user_google_oauth2_omniauth_callback_path}.not_to change(User, :count)
+        expect { get user_google_oauth2_omniauth_callback_path }.not_to change(User, :count)
       end
     end
   end

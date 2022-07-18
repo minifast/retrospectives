@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Users::SessionsController, type: :request do
   describe 'DELETE #destroy' do
     context 'when a user is logged in' do
-      let(:user) { FactoryBot.create(:user) }
+      let(:user) { create(:user) }
 
       before { sign_in(user, scope: :user) }
 
