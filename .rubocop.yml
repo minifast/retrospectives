@@ -1,8 +1,9 @@
 require:
-  - standard
-  - rubocop-rspec
-  - rubocop-rails
   - rubocop-i18n
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+  - standard
 
 inherit_gem:
   standard: config/base.yml

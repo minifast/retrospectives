@@ -28,11 +28,14 @@ group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'pronto', require: false, group: :pronto
+  gem 'pronto-rubocop', require: false, group: :pronto
   gem 'rspec-rails'
-  gem 'rubocop-i18n', require: false
-  gem 'rubocop-rails', require: false
-  gem 'rubocop-rspec', require: false
-  gem 'standard'
+  gem 'rubocop-performance', require: false, group: :pronto
+  gem 'rubocop-i18n', require: false, group: :pronto
+  gem 'rubocop-rails', require: false, group: :pronto
+  gem 'rubocop-rspec', require: false, group: :pronto
+  gem 'standard', group: :pronto
 end
 
 group :development do

@@ -6,8 +6,12 @@
 name: Ruby
 
 on:
+  pull_request:
+    branches:
+      - '*'
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 jobs:
 
@@ -40,12 +44,19 @@ jobs:
         uses: actions/checkout@v3
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
-      - name: Install dependencies
-        run: bundle install
+        with:
+          bundler-cache: true
       - name: Create DB
         run: |
           cp config/database.yml.github-actions config/database.yml
           bin/rails db:prepare
+      - uses: actions/cache@v3
+        with:
+          path: |
+            public/assets
+            app/assets/builds
+            tmp/cache/assets
+          key: ${{ runner.os }}-assets
       - name: Build assets
         run: bin/rails assets:precompile
       - name: Ruby tests
