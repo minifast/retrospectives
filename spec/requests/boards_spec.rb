@@ -60,9 +60,9 @@ RSpec.describe '/boards', type: :request do
         }.to change(Board, :count).by(1)
       end
 
-      it 'redirects to the created board' do
+      it 'redirects to the board list' do
         post boards_url, params: {board: valid_attributes}
-        expect(response).to redirect_to(board_url(Board.last))
+        expect(response).to redirect_to(boards_url)
       end
     end
 
