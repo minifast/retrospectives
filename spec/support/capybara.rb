@@ -20,7 +20,7 @@ end
 
 module FakeCapybaraPage
   def page
-    Capybara::HTML(response.body)
+    Nokogiri::HTML::DocumentFragment.parse(response.body)
   end
 end
 

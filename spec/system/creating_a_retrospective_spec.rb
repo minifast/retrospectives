@@ -11,7 +11,7 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     click_on 'Sign in'
 
-    click_on 'New board'
+    click_on 'New Board'
 
     fill_in 'Name', with: "Today's Retro"
 
