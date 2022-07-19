@@ -1,0 +1,7 @@
+<%= turbo_stream.replace :flash do %>
+  <%= render(Flash::Component.new(flash: flash)) %>
+<% end %>
+
+<%= turbo_stream.replace dom_id(@board.board, :header) do %>
+  <%= render(BoardHeader::Component.new(board: @board.board)) %>
+<% end %>

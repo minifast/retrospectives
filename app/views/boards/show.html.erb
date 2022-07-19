@@ -1,5 +1,5 @@
-<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-  <%= render @board %>
-
-  <%= link_to 'Edit Board', edit_board_path(@board), class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-</div>
+<header>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <%= render(BoardHeader::Component.new(board: @board)) %>
+  </div>
+</header>
