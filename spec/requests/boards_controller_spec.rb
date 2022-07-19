@@ -64,6 +64,12 @@ RSpec.describe '/boards', type: :request do
         post boards_url, params: {board: valid_attributes}
         expect(response).to redirect_to(boards_url)
       end
+
+      it 'broadcasts to the boards channel' do
+        expect do
+          post boards_url, params: {board: valid_attributes}
+        end.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).with('boards', hash_including(action: :prepend, html: a_string_including('Today&#39;s Retro')))
+      end
     end
 
     context 'with invalid parameters' do
@@ -123,6 +129,13 @@ RSpec.describe '/boards', type: :request do
         board.reload
         expect(response).to redirect_to(board_url(board))
       end
+
+      it 'broadcasts to the boards channel' do
+        expect do
+          post boards_url, params: {board: valid_attributes}
+        end.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).with { |name, args|
+        }
+      end
     end
 
     context 'with invalid parameters' do
@@ -130,6 +143,42 @@ RSpec.describe '/boards', type: :request do
         board = Board.create! valid_attributes
         patch board_url(board), params: {board: invalid_attributes}
         expect(response).not_to be_successful
+      end
+    end
+  end
+
+  describe 'PATCH /update.turbo-stream' do
+    before { sign_in user }
+
+    context 'with valid parameters' do
+      let(:new_attributes) {
+        {name: "Tomorrow's Retro"}
+      }
+
+      let(:board) { Board.create! valid_attributes }
+
+      def make_request(attributes)
+        patch board_url(board), params: {board: attributes}, headers: {Accept: Mime['turbo_stream'].to_s}
+      end
+
+      it 'updates the requested board' do
+        make_request(new_attributes)
+        board.reload
+        expect(board.attributes.symbolize_keys).to include(name: "Tomorrow's Retro")
+      end
+
+      it 'broadcasts to replace a board on the boards channel' do
+        expect { make_request(new_attributes) }.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once.with(
+          board.to_gid_param,
+          hash_including(action: :replace, html: a_string_including('Tomorrow&#39;s Retro'), target: board)
+        )
+      end
+
+      it 'broadcasts to replace a board on its header channel' do
+        expect { make_request(new_attributes) }.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once.with(
+          board.to_gid_param,
+          hash_including(action: :replace, html: a_string_including('Tomorrow&#39;s Retro'), target: dom_id(board, 'header'))
+        )
       end
     end
   end

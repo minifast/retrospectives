@@ -4,14 +4,32 @@ class BoardsController < ApplicationController
   class BoardForm
     include ActiveModel::Model
 
-    attr_accessor :board, :name, :view_context
+    attr_accessor :board, :view_context
 
     delegate :model_name, :errors, to: :board, allow_nil: true
 
-    def create
-      return false unless board.update(name: name)
+    def create(params)
+      return false unless board.update(params)
 
-      board.broadcast_prepend_later_to('boards', html: Board::Component.new(board: board).render_in(view_context))
+      board.broadcast_prepend_later_to(
+        'boards',
+        html: Board::Component.new(board: board).render_in(view_context)
+      )
+      true
+    end
+
+    def update(params)
+      return false unless board.update(params)
+
+      board.broadcast_replace_later_to(
+        board,
+        html: Board::Component.new(board: board).render_in(view_context)
+      )
+      board.broadcast_replace_later_to(
+        board,
+        target: view_context.dom_id(board, :header),
+        html: BoardHeader::Component.new(board: board).render_in(view_context)
+      )
       true
     end
   end
@@ -29,14 +47,14 @@ class BoardsController < ApplicationController
   end
 
   def edit
-    @board = Board.find(params[:id])
+    @board = BoardForm.new(board: Board.find(params[:id]))
   end
 
   def create
-    @board = BoardForm.new(board_params.to_unsafe_h.merge(board: Board.new, view_context: view_context))
+    @board = BoardForm.new(board: Board.new, view_context: view_context)
 
     respond_to do |format|
-      if @board.create
+      if @board.create(board_params)
         format.turbo_stream { flash.now[:notice] = t('.success') }
         format.html { redirect_to boards_url, notice: t('.success') }
       else
@@ -46,11 +64,13 @@ class BoardsController < ApplicationController
   end
 
   def update
-    @board = Board.find(params[:id])
+    instance = Board.find(params[:id])
+    @board = BoardForm.new(board: instance, view_context: view_context)
 
     respond_to do |format|
       if @board.update(board_params)
-        format.html { redirect_to board_url(@board), notice: t('.success') }
+        format.turbo_stream { flash.now[:notice] = t('.success') }
+        format.html { redirect_to board_url(instance), notice: t('.success') }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end

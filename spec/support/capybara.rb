@@ -27,6 +27,7 @@ end
 RSpec.configure do |config|
   config.include FakeCapybaraPage, type: :request
   config.include Capybara::RSpecMatchers, type: :request
+  config.include ActionView::RecordIdentifier, type: :request
   config.include Capybara::RSpecMatchers, type: :component
   config.include ViewComponent::TestHelpers, type: :component
   config.before(:each, type: :system) { driven_by(:rack_test) }
