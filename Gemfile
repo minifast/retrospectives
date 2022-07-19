@@ -6,23 +6,25 @@ ruby '3.1.2'
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'bootsnap', require: false
-gem 'devise'
-gem 'hotwire-livereload', '~> 1.2'
-gem 'image_processing', '~> 1.2'
-gem 'importmap-rails'
-gem 'omniauth-google-oauth2'
-gem 'omniauth-rails_csrf_protection'
 gem 'pg', '~> 1.1'
 gem 'propshaft'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 7.0.3'
 gem 'redis', '~> 4.0'
+
+gem 'devise'
+gem 'hotwire-livereload', '~> 1.2'
+gem 'image_processing', '~> 1.2'
+gem 'importmap-rails'
+gem 'inline_svg', github: 'jamesmartin/inline_svg', ref: 'e4c3d0d30f2c96a66fba264a849f8f056f6da738'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-rails_csrf_protection'
+gem 'paranoia'
 gem 'stimulus-rails'
 gem 'tailwindcss-rails'
 gem 'turbo-rails'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'view_component'
-gem 'inline_svg', github: 'minifast/inline_svg', branch: 'allow-propshaft-fallbacks'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]

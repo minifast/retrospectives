@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_29_232009) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_19_125305) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -18,6 +18,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_29_232009) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_boards_on_deleted_at", where: "(deleted_at IS NOT NULL)"
     t.index ["name"], name: "index_boards_on_name", unique: true
   end
 

@@ -1,0 +1,25 @@
+<li id="<%= dom_id(board) %>">
+  <%= link_to board, class: 'block hover:bg-gray-50' do %>
+    <div class="px-4 py-4 flex items-center sm:px-6">
+      <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
+        <div class="truncate">
+          <p class="font-medium text-orange-600 truncate"><%= board.name %></p>
+          <div class="mt-2 flex">
+            <div class="flex items-center text-sm text-gray-500">
+              <%= inline_svg_tag "board/calendar.svg", class: 'flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400' %>
+              <p><span class="sr-only">Created on </span><%= time_tag board.created_at %></p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
+          <div class="flex overflow-hidden -space-x-1">
+            <%= render(Avatar::Component.with_collection([User.first].compact)) %>
+          </div>
+        </div>
+      </div>
+      <div class="ml-5 flex-shrink-0">
+        <%= inline_svg_tag "board/chevron.svg", class: 'h-5 w-5 text-gray-400' %>
+      </div>
+    </div>
+  <% end %>
+</li>

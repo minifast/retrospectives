@@ -80,6 +80,28 @@ RSpec.describe '/boards', type: :request do
     end
   end
 
+  describe 'POST /create.turbo-stream' do
+    before { sign_in user }
+
+    context 'with valid parameters' do
+      it 'creates a new Board' do
+        expect {
+          post boards_url, params: {board: valid_attributes}, headers: {Accept: Mime['turbo_stream'].to_s}
+        }.to change(Board, :count).by(1)
+      end
+
+      it 'purges the slideover' do
+        post boards_url, params: {board: valid_attributes}, headers: {Accept: Mime['turbo_stream'].to_s}
+        expect(page.css('turbo-stream[target=slideover] turbo-frame#slideover').children).to be_empty
+      end
+
+      it 'displays a flash message' do
+        post boards_url, params: {board: valid_attributes}, headers: {Accept: Mime['turbo_stream'].to_s}
+        expect(page.css('turbo-stream[target=flash] turbo-frame#flash')).to have_text('Board was successfully created')
+      end
+    end
+  end
+
   describe 'PATCH /update' do
     before { sign_in user }
 

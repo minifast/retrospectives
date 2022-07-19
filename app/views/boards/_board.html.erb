@@ -1,11 +1,1 @@
-<div id="<%= dom_id board %>">
-  <p class="my-5">
-    <strong class="block font-medium mb-1">Name:</strong>
-    <%= board.name %>
-  </p>
-
-  <% if action_name != "show" %>
-    <%= link_to "Show this board", board, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <hr class="mt-6">
-  <% end %>
-</div>
+<%= render(Board::Component.new(board: board)) %>

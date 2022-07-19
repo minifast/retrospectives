@@ -2,11 +2,12 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center">
       <h2 class="text-3xl font-bold leading-tight text-gray-900">Boards</h2>
-      <%= link_to 'New board', new_board_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+      <%= link_to 'New Board', new_board_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500", data: {turbo_frame: 'slideover'} %>
     </div>
   </div>
 </header>
 
 <div class="mt-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
+  <%= turbo_stream_from "boards" %>
   <%= render(BoardsList::Component.new(boards: @boards)) %>
 </div>
