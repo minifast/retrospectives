@@ -1,21 +1,11 @@
 # frozen_string_literal: true
 
-class Avatar::Component < ViewComponent::Base
-  attr_reader :name, :email, :title
+class Avatar::Component < ApplicationComponent
+  with_collection_parameter :user
 
-  def initialize(name:, email:, title:)
-    @name = name
-    @email = email
-    @title = title
-  end
+  attr_reader :user
 
-  def gravatar_url
-    "https://www.gravatar.com/avatar/#{email_hash}"
-  end
-
-  private
-
-  def email_hash
-    Digest::MD5.hexdigest(email)
+  def initialize(user:)
+    @user = user
   end
 end

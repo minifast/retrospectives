@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Avatar::Component, type: :component do
-  subject(:rendered) { render_inline(described_class.new(name: 'Doc', title: 'Taco Enjoyer', email: 'hi@example.com')) }
+  subject(:rendered) { render_inline(described_class.new(user: user)) }
 
-  it { is_expected.to have_content('Doc').and have_content('Taco Enjoyer') }
+  let(:user) { create(:user, name: 'Doc') }
+
+  it { is_expected.to have_css('img[alt=Doc]') }
 end

@@ -30,6 +30,10 @@ RSpec/NestedGroups:
   Exclude:
     - spec/requests/**/*.rb
 
+RSpec/MultipleExpectations:
+  Exclude:
+    - spec/system/**/*.rb
+
 RSpec/ExampleLength:
   Exclude:
     - spec/system/**/*.rb

@@ -7,8 +7,6 @@
   </div>
 </header>
 
-<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-  <div id="boards">
-    <%= render @boards %>
-  </div>
+<div class="mt-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
+  <%= render(BoardsList::Component.new(boards: @boards)) %>
 </div>

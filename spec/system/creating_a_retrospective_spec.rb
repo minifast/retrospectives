@@ -17,6 +17,18 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     click_on 'Create Board'
 
+    expect(page).to have_content("Today's Retro").and have_text(I18n.l(Time.current.utc.to_date, format: :long))
+
+    click_on "Today's Retro"
+
     expect(page).to have_content("Today's Retro")
+
+    click_on 'Edit Board'
+
+    fill_in 'Name', with: 'Retro of the Day'
+
+    click_on 'Update Board'
+
+    expect(page).to have_content('Retro of the Day')
   end
 end
