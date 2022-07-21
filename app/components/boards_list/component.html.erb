@@ -1,5 +1,16 @@
 <div class="bg-white shadow overflow-hidden sm:rounded-md">
   <ul id="boards" role="list" class="divide-y divide-gray-200">
-    <%= render(Board::Component.with_collection(boards)) %>
+    <%= turbo_frame_tag [:boards, boards.number - 1] do %>
+      <%= render(Board::Component.with_collection(boards.records)) %>
+      <%= turbo_frame_tag [:boards, boards.number] do %>
+        <% unless boards.last? %>
+          <nav class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6" aria-label="Pagination">
+            <div class="flex-1 flex justify-between sm:justify-end">
+              <%= link_to 'Next', boards_path(page: boards.next_param), class: 'ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50', data: {controller: :autoclick} %>
+            </div>
+          </nav>
+        <% end %>
+      <% end %>
+    <% end %>
   </ul>
 </div>

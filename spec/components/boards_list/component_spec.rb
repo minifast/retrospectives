@@ -3,7 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe BoardsList::Component, type: :component do
-  subject(:rendered) { render_inline(described_class.new(boards: Board.all)) }
+  subject(:rendered) { render_inline(described_class.new(boards: boards)) }
+
+  let(:boards) { GearedPagination::Recordset.new(Board.all, ordered_by: {created_at: :desc, id: :desc}).page(nil) }
 
   context 'when there is a board' do
     before { create(:board, name: 'Longboard') }

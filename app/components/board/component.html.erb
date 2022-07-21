@@ -1,5 +1,5 @@
 <li id="<%= dom_id(board) %>">
-  <%= link_to board, class: 'block hover:bg-gray-50' do %>
+  <%= link_to board, class: 'block hover:bg-gray-50', data: {turbo_frame: '_top'} do %>
     <div class="px-4 py-4 flex items-center sm:px-6">
       <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
         <div class="truncate">

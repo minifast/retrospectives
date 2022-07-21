@@ -13,6 +13,7 @@ gem 'rails', '~> 7.0.3'
 gem 'redis', '~> 4.0'
 
 gem 'devise'
+gem 'geared_pagination', '~> 1.1'
 gem 'hotwire-livereload', '~> 1.2'
 gem 'image_processing', '~> 1.2'
 gem 'importmap-rails'
