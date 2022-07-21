@@ -97,7 +97,7 @@ class BoardsController < ApplicationController
   end
 
   def index
-    @boards = Board.most_recent
+    set_page_and_extract_portion_from Board.all, ordered_by: {created_at: :desc, id: :desc}
   end
 
   def show

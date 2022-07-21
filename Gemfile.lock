@@ -151,6 +151,9 @@ GEM
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (2.0.3)
     ffi (1.15.5)
+    geared_pagination (1.1.2)
+      activesupport (>= 5.0)
+      addressable (>= 2.5.0)
     gitlab (4.19.0)
       httparty (~> 0.20)
       terminal-table (>= 1.5.1)
@@ -426,6 +429,7 @@ DEPENDENCIES
   erb_lint
   factory_bot_rails
   faker
+  geared_pagination (~> 1.1)
   hotwire-livereload (~> 1.2)
   image_processing (~> 1.2)
   importmap-rails

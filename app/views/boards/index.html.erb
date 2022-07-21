@@ -9,5 +9,5 @@
 
 <div class="mt-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
   <%= turbo_stream_from 'boards' %>
-  <%= render(BoardsList::Component.new(boards: @boards)) %>
+  <%= render(BoardsList::Component.new(boards: @page)) %>
 </div>
