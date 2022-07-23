@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: {omniauth_callbacks: 'users/omniauth_callbacks'}
 
-  resources :boards
+  resources :boards do
+    resource :timer, only: [:show, :create, :destroy], module: :boards
+  end
 
   devise_scope :user do
     namespace :users, as: :user do
