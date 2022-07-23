@@ -14,6 +14,13 @@ RSpec.describe 'Creating a retrospective', js: true do
     click_on 'New Board'
 
     fill_in 'Name', with: "Today's Retro"
+    fill_in 'Add Column', with: "Happy"
+
+    click_on 'Add'
+
+    expect(page).to have_content("Happy")
+
+    fill_in 'Add Column', with: "Sad"
 
     click_on 'Create Board'
 

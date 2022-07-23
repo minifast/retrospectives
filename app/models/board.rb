@@ -17,4 +17,7 @@ class Board < ApplicationRecord
   acts_as_paranoid
   validates :name, presence: true, uniqueness: true
   scope :most_recent, -> { order(created_at: :desc) }
+
+  has_many :columns, inverse_of: :board
+  accepts_nested_attributes_for :columns, reject_if: :all_blank, allow_destroy: true
 end

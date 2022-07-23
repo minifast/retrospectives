@@ -17,6 +17,10 @@ RSpec.describe Board, type: :model do
       specify { expect(described_class.most_recent).to eq([board]) }
     end
 
+    context 'when there is one board with columns' do
+      it { is_expected.to have_many(:columns).inverse_of(:board) }
+    end
+
     context 'when there are two boards' do
       let!(:board) { create(:board) }
       let!(:older_board) { create(:board, created_at: 1.year.ago) }
