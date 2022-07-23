@@ -3,10 +3,12 @@ require 'rails_helper'
 RSpec.describe Board, type: :model do
   subject(:board) { build(:board) }
 
+  it { is_expected.to have_many(:columns).inverse_of(:board).dependent(:destroy) }
+  it { is_expected.to have_one(:timer).inverse_of(:board).dependent(:destroy) }
+
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_uniqueness_of(:name) }
   it { is_expected.to accept_nested_attributes_for(:columns) }
-  it { is_expected.to have_many(:columns).inverse_of(:board).dependent(:destroy) }
 
   describe '.most_recent' do
     context 'when there are no boards' do

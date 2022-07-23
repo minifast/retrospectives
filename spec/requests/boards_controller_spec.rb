@@ -130,7 +130,7 @@ RSpec.describe BoardsController, type: :request do
     end
   end
 
-  describe 'POST #create.turbo-stream' do
+  describe 'POST #create.turbo_stream' do
     before { sign_in(user, scope: :user) }
 
     def make_request(attributes)
@@ -248,7 +248,7 @@ RSpec.describe BoardsController, type: :request do
     end
   end
 
-  describe 'PATCH #update.turbo-stream' do
+  describe 'PATCH #update.turbo_stream' do
     let(:board) { create(:board) }
     let!(:column) { create(:column, board: board, name: 'Happy') }
 

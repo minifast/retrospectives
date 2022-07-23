@@ -53,5 +53,10 @@ en:
     new:
       create: Create a new retrospective board.
       new: New Board
+    timers:
+      create:
+        success: Timer was successfully created.
+      destroy:
+        success: Timer was successfully destroyed.
     update:
       success: Board was successfully updated.
