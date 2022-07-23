@@ -17,6 +17,7 @@ class Board < ApplicationRecord
   acts_as_paranoid
 
   has_many :columns, inverse_of: :board, dependent: :destroy
+  has_one :timer, inverse_of: :board, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true
 

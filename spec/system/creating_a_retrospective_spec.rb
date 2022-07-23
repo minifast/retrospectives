@@ -64,5 +64,17 @@ RSpec.describe 'Creating a retrospective', js: true do
     click_on 'Update Board'
 
     expect(page).to have_content('Retro of the Day')
+
+    click_on 'Start Timer'
+
+    click_on '5 minutes'
+
+    expect(page).to have_content(/\d:\d\d/)
+
+    page.find('button', text: /\d:\d\d/).click
+
+    click_on 'Stop Timer'
+
+    expect(page).to have_content('Start Timer')
   end
 end
