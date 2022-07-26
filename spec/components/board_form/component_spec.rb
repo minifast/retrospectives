@@ -7,11 +7,11 @@ RSpec.describe BoardForm::Component, type: :component do
 
   let(:board) { Board.new }
 
-  it { is_expected.to have_field('Name') }
+  it { is_expected.to have_field('Board name') }
 
   context 'when there are errors' do
     before { board.valid? }
 
-    it { is_expected.to have_text("Name can't be blank") }
+    it { is_expected.to have_text("Board name can't be blank") }
   end
 end

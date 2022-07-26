@@ -13,7 +13,17 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     click_on 'New Board'
 
-    fill_in 'Name', with: "Today's Retro"
+    fill_in 'Board name', with: "Today's Retro"
+
+    click_on 'Add Column'
+
+    within('#slideover li:first-of-type') do
+      fill_in 'Column name', with: 'Happy'
+    end
+
+    within('#slideover li:last-of-type') do
+      fill_in 'Column name', with: 'Sad'
+    end
 
     click_on 'Create Board'
 
@@ -25,7 +35,21 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     click_on 'Edit Board'
 
-    fill_in 'Name', with: 'Retro of the Day'
+    fill_in 'Board name', with: 'Retro of the Day'
+
+    within('#slideover li:first-of-type') do
+      fill_in 'Column name', with: 'I want'
+    end
+
+    within('#slideover li:last-of-type') do
+      fill_in 'Column name', with: 'I need'
+    end
+
+    click_on 'Add Column'
+
+    within('#slideover li:last-of-type') do
+      fill_in 'Column name', with: 'I love'
+    end
 
     click_on 'Update Board'
 

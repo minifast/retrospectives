@@ -15,6 +15,12 @@
 #
 class Board < ApplicationRecord
   acts_as_paranoid
+
+  has_many :columns, inverse_of: :board, dependent: :destroy
+
   validates :name, presence: true, uniqueness: true
+
+  accepts_nested_attributes_for :columns, reject_if: :all_blank, allow_destroy: true
+
   scope :most_recent, -> { order(created_at: :desc) }
 end
