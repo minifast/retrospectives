@@ -1,7 +1,11 @@
+<%= turbo_stream.replace :slideover do %>
+  <%= render(Slideover::Component.new) %>
+<% end %>
+
 <%= turbo_stream.replace :flash do %>
   <%= render(Flash::Component.new(flash: flash)) %>
 <% end %>
 
-<%= turbo_stream.replace dom_id(@board.board, :header) do %>
-  <%= render(BoardHeader::Component.new(board: @board.board)) %>
+<%= turbo_stream.replace dom_id(@board, :header) do %>
+  <%= render(BoardHeader::Component.new(board: @board)) %>
 <% end %>

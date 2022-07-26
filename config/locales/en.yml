@@ -30,11 +30,28 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      board:
+        name: Board name
+      column:
+        name: Column name
+  activemodel:
+    attributes:
+      board:
+        name: Board name
+      column:
+        name: Column name
   boards:
     create:
       success: Board was successfully created.
     destroy:
       success: Board was successfully destroyed.
+    edit:
+      edit: Edit Board
+      update: Update this retrospective board.
+    new:
+      create: Create a new retrospective board.
+      new: New Board
     update:
       success: Board was successfully updated.

@@ -5,6 +5,8 @@ RSpec.describe Board, type: :model do
 
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_uniqueness_of(:name) }
+  it { is_expected.to accept_nested_attributes_for(:columns) }
+  it { is_expected.to have_many(:columns).inverse_of(:board).dependent(:destroy) }
 
   describe '.most_recent' do
     context 'when there are no boards' do
@@ -15,6 +17,10 @@ RSpec.describe Board, type: :model do
       let!(:board) { create(:board) }
 
       specify { expect(described_class.most_recent).to eq([board]) }
+    end
+
+    context 'when there is one board with columns' do
+      it { is_expected.to have_many(:columns).inverse_of(:board) }
     end
 
     context 'when there are two boards' do
