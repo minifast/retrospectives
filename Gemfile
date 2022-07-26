@@ -28,10 +28,12 @@ gem 'view_component'
 
 group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
+  gem 'erb_lint', require: false
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'pronto', require: false, group: :pronto
   gem 'pronto-rubocop', require: false, group: :pronto
+  gem 'pronto-erb_lint', github: 'tleish/pronto-erb_lint', ref: '4b49373451b3ff26cbdec0c85d130463838d7ae7', require: false, group: :pronto
   gem 'rspec-rails'
   gem 'rubocop-performance', require: false, group: :pronto
   gem 'rubocop-i18n', require: false, group: :pronto
