@@ -4,13 +4,28 @@ RSpec.describe 'Creating a retrospective', js: true do
   before do
     OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(uid: '123545', info: {email: 'user@ministryofvelocity.com', name: 'User', image: 'https://placekitten.com/80/80'})
     Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:google_oauth2]
-    create_list(:board, 16)
+    page.driver.browser.execute_cdp(
+      'Browser.setPermission',
+      origin: page.server_url,
+      permission: {name: 'clipboard-read'},
+      setting: 'granted'
+    )
+    page.driver.browser.execute_cdp(
+      'Browser.setPermission',
+      origin: page.server_url,
+      permission: {name: 'clipboard-write'},
+      setting: 'granted'
+    )
   end
 
   it 'adds a board' do
     visit root_path
 
     click_on 'Sign in'
+
+    create_list(:board, 16, users: User.all)
+
+    visit root_path
 
     expect(page.all('li').size).to eq(15)
 
@@ -43,6 +58,17 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     expect(page).to have_content("Today's Retro")
 
+    click_on 'Copy Invite Link'
+
+    invite_url = page.evaluate_async_script('navigator.clipboard.readText().then(arguments[0])')
+    expect(invite_url).to end_with(board_share_path(Board.most_recent.first, Board.most_recent.first.share_token))
+
+    Capybara.using_session(:guest) do
+      visit invite_url
+
+      expect(page).to have_content("Today's Retro")
+    end
+
     click_on 'Edit Board'
 
     fill_in 'Board name', with: 'Retro of the Day'
@@ -70,6 +96,11 @@ RSpec.describe 'Creating a retrospective', js: true do
     click_on '5 minutes'
 
     expect(page).to have_content(/\d:\d\d/)
+
+    Capybara.using_session(:guest) do
+      expect(page).to have_content('Retro of the Day')
+      expect(page).to have_content(/\d:\d\d/)
+    end
 
     page.find('button', text: /\d:\d\d/).click
 

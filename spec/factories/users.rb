@@ -5,5 +5,10 @@ FactoryBot.define do
     name { Faker::Name.first_name }
     image_url { 'https://placekitten.com/80/80' }
     sequence(:email) { |n| "#{name}#{n}@example.com" }
+    guest { false }
+
+    trait :guest do
+      guest { true }
+    end
   end
 end

@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  subject(:user) { build(:user) }
+
+  it { is_expected.to have_many(:board_users).inverse_of(:user).dependent(:destroy) }
+  it { is_expected.to have_many(:boards).through(:board_users) }
+
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_presence_of(:email) }
+  it { is_expected.to validate_presence_of(:image_url) }
+
   describe 'validations' do
     context 'when the email address already exists' do
       let(:user) { build(:user, email: 'awesome@example.com') }

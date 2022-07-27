@@ -13,14 +13,19 @@ gem 'rails', '~> 7.0.3'
 gem 'redis', '~> 4.0'
 
 gem 'devise'
+gem 'devise-guests'
+gem 'faker'
 gem 'geared_pagination', '~> 1.1'
 gem 'hotwire-livereload', '~> 1.2'
 gem 'image_processing', '~> 1.2'
 gem 'importmap-rails'
 gem 'inline_svg', github: 'jamesmartin/inline_svg', ref: 'e4c3d0d30f2c96a66fba264a849f8f056f6da738'
+gem 'hashid-rails'
+gem 'nanoid'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'paranoia'
+gem 'pundit', '~> 2.2'
 gem 'stimulus-rails'
 gem 'tailwindcss-rails'
 gem 'turbo-rails'
@@ -31,7 +36,6 @@ group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'erb_lint', require: false
   gem 'factory_bot_rails'
-  gem 'faker'
   gem 'pronto', require: false, group: :pronto
   gem 'pronto-rubocop', require: false, group: :pronto
   gem 'pronto-erb_lint', github: 'tleish/pronto-erb_lint', ref: '4b49373451b3ff26cbdec0c85d130463838d7ae7', require: false, group: :pronto

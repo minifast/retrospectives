@@ -1,5 +1,5 @@
 class BoardsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:index]
 
   class ColumnForm
     include ActiveModel::Model
@@ -37,15 +37,13 @@ class BoardsController < ApplicationController
       end
     end
 
-    attr_accessor :id, :name
+    attr_accessor :board, :name
     attr_writer :columns
+
+    delegate :persisted?, :share_token, :id, to: :board, allow_nil: true
 
     validates :name, presence: true
     validates_with ColumnsValidator
-
-    def persisted?
-      id.present?
-    end
 
     def self.model_name
       Board.model_name
@@ -67,7 +65,7 @@ class BoardsController < ApplicationController
       @columns&.map { |c| c.valid?(:update) }&.all?
     end
 
-    def create(board, view_context)
+    def create(view_context)
       return false unless [valid?, columns_create_valid?].all?
 
       board.update(name: name, columns_attributes: columns.map(&:to_h))
@@ -78,7 +76,7 @@ class BoardsController < ApplicationController
       true
     end
 
-    def update(board, view_context)
+    def update(view_context)
       return false unless [valid?, columns_update_valid?].all?
 
       board.update(name: name, columns_attributes: @columns.map(&:to_h).map(&:compact))
@@ -97,27 +95,32 @@ class BoardsController < ApplicationController
   end
 
   def index
-    set_page_and_extract_portion_from Board.all, ordered_by: {created_at: :desc, id: :desc}
+    authorize(Board)
+    set_page_and_extract_portion_from policy_scope(Board), ordered_by: {created_at: :desc, id: :desc}
   end
 
   def show
+    authorize(current_board)
     @board = current_board
   end
 
   def new
-    @board = BoardForm.new(columns: [ColumnForm.new])
+    authorize(Board)
+    @board = BoardForm.new(board: Board.new(users: [current_user]), columns: [ColumnForm.new])
   end
 
   def edit
+    authorize(current_board)
     columns = current_board.columns.map { |c| ColumnForm.new(id: c.id, name: c.name) }
-    @board = BoardForm.new(id: current_board.id, name: current_board.name, columns: columns)
+    @board = BoardForm.new(board: current_board, name: current_board.name, columns: columns)
   end
 
   def create
-    @board = BoardForm.new(board_params)
+    authorize(Board)
+    @board = BoardForm.new(board_params.merge(board: Board.new(users: [current_user])))
 
     respond_to do |format|
-      if @board.create(Board.new, view_context)
+      if @board.create(view_context)
         format.turbo_stream { flash.now[:notice] = t('.success') }
         format.html { redirect_to boards_url, notice: t('.success') }
       else
@@ -127,10 +130,11 @@ class BoardsController < ApplicationController
   end
 
   def update
-    @board = BoardForm.new(board_params.merge(id: current_board.id))
+    authorize(current_board)
+    @board = BoardForm.new(board_params.merge(board: current_board))
 
     respond_to do |format|
-      if @board.update(current_board, view_context)
+      if @board.update(view_context)
         format.turbo_stream { flash.now[:notice] = t('.success') }
         format.html { redirect_to board_url(current_board), notice: t('.success') }
       else
@@ -140,6 +144,7 @@ class BoardsController < ApplicationController
   end
 
   def destroy
+    authorize(current_board)
     current_board.destroy
 
     respond_to do |format|
@@ -154,6 +159,6 @@ class BoardsController < ApplicationController
   end
 
   def board_params
-    params.require(:board).permit(:name, columns_attributes: [:id, :name, :board_order_position, :_destroy])
+    params.require(:board).permit(:name, columns_attributes: [:id, :name, :_destroy])
   end
 end

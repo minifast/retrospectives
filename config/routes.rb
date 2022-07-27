@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {omniauth_callbacks: 'users/omniauth_callbacks'}
 
   resources :boards do
+    resources :shares, only: [:show], param: :share_token, module: :boards
     resource :timer, only: [:show, :create, :destroy], module: :boards
   end
 
