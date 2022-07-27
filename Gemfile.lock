@@ -124,6 +124,8 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise-guests (0.8.1)
+      devise
     diff-lcs (1.5.0)
     digest (3.1.0)
     dotenv (2.7.6)
@@ -159,6 +161,10 @@ GEM
       terminal-table (>= 1.5.1)
     globalid (1.0.0)
       activesupport (>= 5.0)
+    hashid-rails (1.4.1)
+      activerecord (>= 4.0)
+      hashids (~> 1.0)
+    hashids (1.0.6)
     hashie (5.0.0)
     hotwire-livereload (1.2.0)
       listen (>= 3.0.0)
@@ -199,6 +205,7 @@ GEM
     msgpack (1.5.3)
     multi_json (1.15.0)
     multi_xml (0.6.0)
+    nanoid (2.0.0)
     net-imap (0.2.3)
       digest
       net-protocol
@@ -269,6 +276,8 @@ GEM
     public_suffix (4.0.7)
     puma (5.6.4)
       nio4r (~> 2.0)
+    pundit (2.2.0)
+      activesupport (>= 3.0.0)
     racc (1.6.0)
     rack (2.2.4)
     rack-mini-profiler (3.0.0)
@@ -425,15 +434,18 @@ DEPENDENCIES
   capybara (>= 3.26)
   debug
   devise
+  devise-guests
   dotenv-rails
   erb_lint
   factory_bot_rails
   faker
   geared_pagination (~> 1.1)
+  hashid-rails
   hotwire-livereload (~> 1.2)
   image_processing (~> 1.2)
   importmap-rails
   inline_svg!
+  nanoid
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
   paranoia
@@ -444,6 +456,7 @@ DEPENDENCIES
   pronto-rubocop
   propshaft
   puma (~> 5.0)
+  pundit (~> 2.2)
   rack-mini-profiler
   rails (~> 7.0.3)
   redis (~> 4.0)

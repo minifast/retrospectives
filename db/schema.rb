@@ -10,17 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_26_031753) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_27_011137) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "board_users", force: :cascade do |t|
+    t.bigint "board_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["board_id"], name: "index_board_users_on_board_id"
+    t.index ["user_id", "board_id"], name: "index_board_users_on_user_id_and_board_id", unique: true
+  end
 
   create_table "boards", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.string "share_token", null: false
     t.index ["deleted_at"], name: "index_boards_on_deleted_at", where: "(deleted_at IS NOT NULL)"
     t.index ["name"], name: "index_boards_on_name", unique: true
+    t.index ["share_token"], name: "index_boards_on_share_token"
   end
 
   create_table "columns", force: :cascade do |t|
@@ -45,9 +55,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_26_031753) do
     t.string "image_url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "guest", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "board_users", "boards"
+  add_foreign_key "board_users", "users"
   add_foreign_key "columns", "boards"
   add_foreign_key "timers", "boards"
 end

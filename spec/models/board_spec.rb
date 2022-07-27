@@ -3,11 +3,15 @@ require 'rails_helper'
 RSpec.describe Board, type: :model do
   subject(:board) { build(:board) }
 
+  it { is_expected.to have_many(:board_users).inverse_of(:board).dependent(:destroy) }
+  it { is_expected.to have_many(:users).through(:board_users) }
   it { is_expected.to have_many(:columns).inverse_of(:board).dependent(:destroy) }
   it { is_expected.to have_one(:timer).inverse_of(:board).dependent(:destroy) }
 
   it { is_expected.to validate_presence_of(:name) }
   it { is_expected.to validate_uniqueness_of(:name) }
+  it { is_expected.to validate_presence_of(:share_token) }
+  it { is_expected.to validate_uniqueness_of(:share_token) }
   it { is_expected.to accept_nested_attributes_for(:columns) }
 
   describe '.most_recent' do
