@@ -40,7 +40,7 @@ class BoardsController < ApplicationController
     attr_accessor :board, :name
     attr_writer :columns
 
-    delegate :persisted?, :share_token, :id, to: :board, allow_nil: true
+    delegate :persisted?, :share_token, :id, :users, to: :board, allow_nil: true
 
     validates :name, presence: true
     validates_with ColumnsValidator

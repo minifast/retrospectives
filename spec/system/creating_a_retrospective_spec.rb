@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Creating a retrospective', js: true do
   before do
-    OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(uid: '123545', info: {email: 'user@ministryofvelocity.com', name: 'User', image: 'https://placekitten.com/80/80'})
+    OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(uid: '123545', info: {email: 'user@ministryofvelocity.com', name: 'Minifast User', image: 'https://placekitten.com/80/80'})
     Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:google_oauth2]
     page.driver.browser.execute_cdp(
       'Browser.setPermission',
@@ -63,11 +63,16 @@ RSpec.describe 'Creating a retrospective', js: true do
     invite_url = page.evaluate_async_script('navigator.clipboard.readText().then(arguments[0])')
     expect(invite_url).to end_with(board_share_path(Board.most_recent.first, Board.most_recent.first.share_token))
 
-    Capybara.using_session(:guest) do
+    using_session(:guest) do
       visit invite_url
 
       expect(page).to have_content("Today's Retro")
+      expect(page).to have_css("img[alt='Minifast User']")
+      expect(page).to have_css("img[alt='Testing Guest']")
     end
+
+    expect(page).to have_css("img[alt='Minifast User']")
+    expect(page).to have_css("img[alt='Testing Guest']")
 
     click_on 'Edit Board'
 
@@ -97,7 +102,7 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     expect(page).to have_content(/\d:\d\d/)
 
-    Capybara.using_session(:guest) do
+    using_session(:guest) do
       expect(page).to have_content('Retro of the Day')
       expect(page).to have_content(/\d:\d\d/)
     end
@@ -107,5 +112,11 @@ RSpec.describe 'Creating a retrospective', js: true do
     click_on 'Stop Timer'
 
     expect(page).to have_content('Start Timer')
+
+    using_session(:guest) do |session, previous_session|
+      expect(page).to have_content('Start Timer')
+      session.quit
+      previous_session.quit
+    end
   end
 end
