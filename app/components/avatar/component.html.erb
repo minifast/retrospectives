@@ -1,1 +1,1 @@
-<%= image_tag user.image_url, alt: user.name, title: user.name, class: 'inline-block h-6 w-6 rounded-full ring-2 ring-white' %>
+<%= image_tag user.image_url, alt: user.name, title: user.name, class: 'inline-block h-6 w-6 rounded-full ring-2 ring-white bg-gray-50', onerror: "this.src = '#{asset_path('avatar/profile.svg')}'" %>

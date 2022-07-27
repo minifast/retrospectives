@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
 
   def guest_user_params
     {
-      image_url: '/assets/guest/profile.svg',
-      name: [t('guest.adjectives').sample, t('guest.animals').sample].join(' ')
+      image_url: '',
+      name: [Rails.application.config_for(:guest).adjectives.sample, Rails.application.config_for(:guest).animals.sample].join(' ')
     }
   end
 

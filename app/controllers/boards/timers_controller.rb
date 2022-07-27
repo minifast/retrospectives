@@ -1,6 +1,4 @@
 class Boards::TimersController < ApplicationController
-  before_action :authenticate_user!
-
   class TimerForm
     include ActiveModel::Model
 
@@ -47,10 +45,12 @@ class Boards::TimersController < ApplicationController
   end
 
   def show
+    authorize(current_board, :show?)
     @timer = TimerForm.new(board: current_board, duration: current_board.timer&.duration)
   end
 
   def create
+    authorize(current_board, :update?)
     @timer = TimerForm.new(timer_params.merge(board: current_board))
 
     respond_to do |format|
@@ -64,6 +64,7 @@ class Boards::TimersController < ApplicationController
   end
 
   def destroy
+    authorize(current_board, :update?)
     @timer = TimerForm.new(board: current_board)
 
     respond_to do |format|

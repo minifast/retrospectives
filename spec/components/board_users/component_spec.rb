@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-RSpec.describe BoardHeader::Component, type: :component do
+RSpec.describe BoardUsers::Component, type: :component do
   subject(:rendered) { render_inline(described_class.new(board: board)) }
 
   let(:board) { create(:board, name: 'Cheeseboard') }
 
-  it { is_expected.to have_content('Cheeseboard') }
+  it { is_expected.to have_no_css('img') }
 
   context 'when a user is attached to the board' do
     let(:user) { create(:user, name: 'Minifast User') }
