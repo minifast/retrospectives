@@ -17,6 +17,9 @@
 #  fk_rails_...  (board_id => boards.id)
 #
 class Column < ApplicationRecord
+  include Hashid::Rails
+
   belongs_to :board, inverse_of: :columns
+
   validates :name, presence: true, uniqueness: {scope: :board_id}
 end

@@ -71,9 +71,9 @@ RSpec.describe BoardsController, type: :request do
 
     it 'renders a successful response' do
       make_request
-      expect(page).to have_field('Board name')
+      expect(page).to have_field('Board name').and have_button('Create Board')
+        .and have_field('Column name', with: 'Happy').and have_field('Column name', with: 'Meh').and have_field('Column name', with: 'Sad')
         .and have_button('Add Column').and have_button('Remove Column')
-        .and have_button('Create Board')
     end
 
     it 'does not accidentally create a board' do
@@ -298,6 +298,18 @@ RSpec.describe BoardsController, type: :request do
             .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once
             .with(board.to_gid_param, hash_including(action: :replace, html: a_string_including('Friday Retro'), target: dom_id(board, 'header')))
         end
+
+        it 'broadcasts to a board to replace a column' do
+          expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }
+            .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once
+            .with(board.to_gid_param, hash_including(action: :replace, html: a_string_including('I like'), target: dom_id(column)))
+        end
+
+        it 'broadcasts to a board to add a column' do
+          expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}, '1' => {name: 'I wish'}}) }
+            .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once
+            .with(board.to_gid_param, hash_including(action: :append, html: a_string_including('I wish'), target: dom_id(board, :columns)))
+        end
       end
 
       context 'with a valid column' do
@@ -327,6 +339,12 @@ RSpec.describe BoardsController, type: :request do
           expect do
             make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, _destroy: 1}, '1' => {id: other_column.id, name: 'Apathetic'}})
           end.to change(Column, :count).by(-1)
+        end
+
+        it 'broadcasts to a board to remove a column' do
+          expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, _destroy: 1}, '1' => {id: other_column.id, name: 'Apathetic'}}) }
+            .to have_broadcasted_to(board.to_gid_param).once
+            .with(a_string_including('remove').and(a_string_including(dom_id(column))))
         end
       end
 
