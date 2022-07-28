@@ -5,3 +5,19 @@
     <%= render(BoardHeader::Component.new(board: @board)) %>
   </div>
 </header>
+
+<div class="flex-1 flex flex-col max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8" data-controller="tabs" data-tabs-active-tab="border-orange-500 text-orange-600 hover:border-orange-600" data-tabs-index="0">
+  <nav class="block sm:hidden">
+    <ul class="list-reset flex border-b space-x-8">
+      <% @board.columns.each do |column| %>
+        <li class="border-transparent hover:border-gray-300 border-b-2 font-medium text-sm" data-tabs-target="tab" data-action="click->tabs#change">
+          <a class="block text-gray-500 hover:text-gray-700 whitespace-nowrap py-4 px-1" href="#"><%= column.name %></a>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+
+  <div class="flex-1 flex sm:divide-x sm:divide-gray-200">
+    <%= render(BoardColumn::Component.with_collection(@board.columns)) %>
+  </div>
+</div>

@@ -71,9 +71,9 @@ RSpec.describe BoardsController, type: :request do
 
     it 'renders a successful response' do
       make_request
-      expect(page).to have_field('Board name')
+      expect(page).to have_field('Board name').and have_button('Create Board')
+        .and have_field('Column name', with: 'Happy').and have_field('Column name', with: 'Meh').and have_field('Column name', with: 'Sad')
         .and have_button('Add Column').and have_button('Remove Column')
-        .and have_button('Create Board')
     end
 
     it 'does not accidentally create a board' do

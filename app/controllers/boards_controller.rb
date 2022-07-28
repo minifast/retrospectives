@@ -106,7 +106,11 @@ class BoardsController < ApplicationController
 
   def new
     authorize(Board)
-    @board = BoardForm.new(board: Board.new(users: [current_user]), columns: [ColumnForm.new])
+    @board = BoardForm.new(board: Board.new(users: [current_user]), columns: [
+      ColumnForm.new(name: 'Happy'),
+      ColumnForm.new(name: 'Meh'),
+      ColumnForm.new(name: 'Sad')
+    ])
   end
 
   def edit

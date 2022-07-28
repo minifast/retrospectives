@@ -35,12 +35,8 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     click_on 'Add Column'
 
-    within('#slideover li:first-of-type') do
-      fill_in 'Column name', with: 'Happy'
-    end
-
     within('#slideover li:last-of-type') do
-      fill_in 'Column name', with: 'Sad'
+      fill_in 'Column name', with: 'Unactionable'
     end
 
     click_on 'Create Board'

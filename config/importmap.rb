@@ -12,6 +12,7 @@ pin 'stimulus-rails-nested-form', to: 'https://ga.jspm.io/npm:stimulus-rails-nes
 pin 'stimulus-reveal-controller', to: 'https://ga.jspm.io/npm:stimulus-reveal-controller@4.0.0/dist/stimulus-reveal-controller.es.js'
 pin 'stimulus-timeago', to: 'https://ga.jspm.io/npm:stimulus-timeago@4.0.0/dist/stimulus-timeago.es.js'
 pin 'stimulus-use', to: 'https://ga.jspm.io/npm:stimulus-use@0.50.0/dist/index.js'
+pin 'tailwindcss-stimulus-components', to: 'https://ga.jspm.io/npm:tailwindcss-stimulus-components@3.0.4/dist/tailwindcss-stimulus-components.modern.js'
 
 pin 'application', preload: true
 pin_all_from 'app/javascript/controllers', under: 'controllers'
