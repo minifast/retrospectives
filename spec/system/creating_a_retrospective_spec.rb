@@ -35,12 +35,12 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     click_on 'Add Column'
 
-    within('#slideover li:first-of-type') do
-      fill_in 'Column name', with: 'Happy'
+    within('#slideover li:nth-of-type(2)') do
+      click_on 'Remove Column'
     end
 
     within('#slideover li:last-of-type') do
-      fill_in 'Column name', with: 'Sad'
+      fill_in 'Column name', with: 'Unactionable'
     end
 
     click_on 'Create Board'
@@ -82,6 +82,10 @@ RSpec.describe 'Creating a retrospective', js: true do
       fill_in 'Column name', with: 'I want'
     end
 
+    within('#slideover li:nth-of-type(2)') do
+      click_on 'Remove Column'
+    end
+
     within('#slideover li:last-of-type') do
       fill_in 'Column name', with: 'I need'
     end
@@ -94,18 +98,23 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     click_on 'Update Board'
 
+    using_session(:guest) do
+      expect(page).to have_content('Retro of the Day')
+      expect(page).to have_content('I want').and have_content('I need').and have_content('I love')
+    end
+
     expect(page).to have_content('Retro of the Day')
+    expect(page).to have_content('I want').and have_content('I need').and have_content('I love')
 
     click_on 'Start Timer'
 
     click_on '5 minutes'
 
-    expect(page).to have_content(/\d:\d\d/)
-
     using_session(:guest) do
-      expect(page).to have_content('Retro of the Day')
       expect(page).to have_content(/\d:\d\d/)
     end
+
+    expect(page).to have_content(/\d:\d\d/)
 
     page.find('button', text: /\d:\d\d/).click
 
@@ -113,10 +122,10 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     expect(page).to have_content('Start Timer')
 
-    using_session(:guest) do |session, previous_session|
+    using_session(:guest) do |guest_session, main_session|
       expect(page).to have_content('Start Timer')
-      session.quit
-      previous_session.quit
+      guest_session.quit
+      main_session.quit
     end
   end
 end

@@ -79,7 +79,12 @@ class BoardsController < ApplicationController
     def update(view_context)
       return false unless [valid?, columns_update_valid?].all?
 
-      board.update(name: name, columns_attributes: @columns.map(&:to_h).map(&:compact))
+      old_columns = board.columns.to_a
+      board.update(name: name, columns_attributes: columns.map(&:to_h).map(&:compact))
+      removed_columns = old_columns - board.reload.columns.to_a
+      new_columns = board.columns.to_a - old_columns
+      remaining_columns = board.columns.to_a - new_columns
+
       board.broadcast_replace_later_to(
         'boards',
         target: view_context.dom_id(board),
@@ -90,6 +95,23 @@ class BoardsController < ApplicationController
         target: view_context.dom_id(board, :header),
         html: BoardHeader::Component.new(board: board).render_in(view_context)
       )
+      removed_columns.each do |column|
+        board.broadcast_remove_to(board, target: view_context.dom_id(column))
+      end
+      remaining_columns.each do |column|
+        board.broadcast_replace_later_to(
+          board,
+          target: view_context.dom_id(column),
+          html: BoardColumn::Component.new(column: column).render_in(view_context)
+        )
+      end
+      new_columns.each do |column|
+        board.broadcast_append_later_to(
+          board,
+          target: view_context.dom_id(board, :columns),
+          html: BoardColumn::Component.new(column: column).render_in(view_context)
+        )
+      end
       true
     end
   end
@@ -106,7 +128,11 @@ class BoardsController < ApplicationController
 
   def new
     authorize(Board)
-    @board = BoardForm.new(board: Board.new(users: [current_user]), columns: [ColumnForm.new])
+    @board = BoardForm.new(board: Board.new(users: [current_user]), columns: [
+      ColumnForm.new(name: 'Happy'),
+      ColumnForm.new(name: 'Meh'),
+      ColumnForm.new(name: 'Sad')
+    ])
   end
 
   def edit
