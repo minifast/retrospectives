@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_27_011137) do
+ActiveRecord::Schema[7.0].define(version: 2022_07_28_172101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,6 +48,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_27_011137) do
     t.index ["board_id"], name: "index_timers_on_board_id", unique: true
   end
 
+  create_table "topics", force: :cascade do |t|
+    t.bigint "column_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["column_id"], name: "index_topics_on_column_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "name", null: false
@@ -62,4 +70,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_27_011137) do
   add_foreign_key "board_users", "users"
   add_foreign_key "columns", "boards"
   add_foreign_key "timers", "boards"
+  add_foreign_key "topics", "columns"
 end

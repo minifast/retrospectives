@@ -163,7 +163,7 @@ RSpec.describe BoardsController, type: :request do
         expect(response).to redirect_to(boards_url)
       end
 
-      it 'broadcasts to the boards channel' do
+      it 'sends a board to the boards channel' do
         expect { make_request(name: 'Thursday Retro', columns_attributes: {'0' => {name: 'Happy'}}) }
           .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob)
           .with('boards', hash_including(action: :prepend, html: a_string_including('Thursday Retro')))
