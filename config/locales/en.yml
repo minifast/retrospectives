@@ -36,13 +36,21 @@ en:
         name: Board name
       column:
         name: Column name
+      topic:
+        name: Topic name
   activemodel:
     attributes:
       board:
         name: Board name
       column:
         name: Column name
+      topic:
+        name: Topic name
   boards:
+    columns:
+      topics:
+        create:
+          success: Topic was successfully created.
     create:
       success: Board was successfully created.
     destroy:
