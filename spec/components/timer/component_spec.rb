@@ -9,7 +9,7 @@ RSpec.describe Timer::Component, type: :component do
   let(:timer) { build(:timer, board: board) }
 
   context 'when there is no timer' do
-    it { is_expected.to have_content('Start Timer').and have_button('5 minutes') }
+    it { is_expected.to have_content('Timer').and have_button('Start 5 minutes') }
   end
 
   context 'when there is a timer' do

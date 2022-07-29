@@ -41,7 +41,7 @@ RSpec.describe Boards::TimersController, type: :request do
 
       it 'renders a successful response' do
         make_request(board.id)
-        expect(page).to have_content('Start Timer').and have_button('5 minutes')
+        expect(page).to have_content('Timer').and have_button('Start 5 minutes')
       end
     end
 
@@ -55,7 +55,7 @@ RSpec.describe Boards::TimersController, type: :request do
 
       it 'renders a successful response' do
         make_request(board.id)
-        expect(page).to have_content('Start Timer').and have_button('5 minutes')
+        expect(page).to have_content('Timer').and have_button('Start 5 minutes')
       end
     end
 
