@@ -5,7 +5,7 @@
         <% if timer.persisted? %>
           <time class="font-mono" datetime="<%= timer.ends_at.iso8601 %>" data-controller="timer" data-timer-refresh-interval-value="250" data-timer-datetime-value="<%= timer.ends_at.iso8601 %>"><%= time_remaining %></time>
         <% else %>
-          Start Timer
+          Timer
         <% end %>
         <%= inline_svg_tag 'timer/chevron_down.svg', class: '-mr-1 ml-2 h-5 w-5' %>
       <% end %>
@@ -21,7 +21,7 @@
       aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
       <div class="py-1" role="none">
         <%= button_to 'Stop Timer', board_timer_path(timer.board), method: :delete, class: 'text-gray-700 block px-4 py-2 text-sm', role: 'menuitem', data: {action: 'dropdown#toggle'} if timer.persisted? %>
-        <%= button_to '5 minutes', board_timer_path(timer.board), class: 'text-gray-700 block px-4 py-2 text-sm', role: 'menuitem', params: {timer: {duration: 5.minutes}}, data: {action: 'dropdown#toggle'} %>
+        <%= button_to 'Start 5 minutes', board_timer_path(timer.board), class: 'text-gray-700 block px-4 py-2 text-sm', role: 'menuitem', params: {timer: {duration: 5.minutes}}, data: {action: 'dropdown#toggle'} %>
       </div>
     </div>
   </div>

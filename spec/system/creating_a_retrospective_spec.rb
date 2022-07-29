@@ -106,9 +106,9 @@ RSpec.describe 'Creating a retrospective', js: true do
     expect(page).to have_content('Retro of the Day')
     expect(page).to have_content('I want').and have_content('I need').and have_content('I love')
 
-    click_on 'Start Timer'
+    click_on 'Timer'
 
-    click_on '5 minutes'
+    click_on 'Start 5 minutes'
 
     using_session(:guest) do
       expect(page).to have_content(/\d:\d\d/)
@@ -131,10 +131,10 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     click_on 'Stop Timer'
 
-    expect(page).to have_content('Start Timer')
+    expect(page).to have_content('Timer')
 
     using_session(:guest) do |guest_session, main_session|
-      expect(page).to have_content('Start Timer')
+      expect(page).to have_content('Timer')
       guest_session.quit
       main_session.quit
     end
