@@ -29,6 +29,14 @@ export default class extends Timeago {
       this.element.innerHTML = formatDistanceToNow(date - now)
     } else {
       this.element.innerHTML = '0:00'
+      this.stopRefreshing()
+    }
+  }
+
+  stopRefreshing () {
+    if (this.refreshTimer) {
+      this.element.dispatchEvent(new CustomEvent('timer:end', {bubbles: true}))
+      clearInterval(this.refreshTimer)
     }
   }
 }
