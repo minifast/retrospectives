@@ -16,7 +16,6 @@ gem 'devise'
 gem 'devise-guests'
 gem 'faker'
 gem 'geared_pagination', '~> 1.1'
-gem 'hotwire-livereload', '~> 1.2'
 gem 'image_processing', '~> 1.2'
 gem 'importmap-rails'
 gem 'inline_svg', github: 'jamesmartin/inline_svg', ref: 'e4c3d0d30f2c96a66fba264a849f8f056f6da738'
@@ -49,6 +48,7 @@ end
 
 group :development do
   gem 'annotate'
+  gem 'hotwire-livereload', '~> 1.2'
   gem 'pivotal_git_scripts'
   gem 'rack-mini-profiler'
   gem 'web-console'
