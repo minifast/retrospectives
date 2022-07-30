@@ -16,3 +16,4 @@ pin 'tailwindcss-stimulus-components', to: 'https://ga.jspm.io/npm:tailwindcss-s
 
 pin 'application', preload: true
 pin_all_from 'app/javascript/controllers', under: 'controllers'
+pin 'canvas-confetti', to: 'https://ga.jspm.io/npm:canvas-confetti@1.5.1/dist/confetti.module.mjs'
