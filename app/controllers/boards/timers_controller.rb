@@ -61,6 +61,11 @@ class Boards::TimersController < ApplicationController
         format.html { render :show, status: :unprocessable_entity }
       end
     end
+  rescue Pundit::NotAuthorizedError
+    respond_to do |format|
+      format.turbo_stream { flash.now[:alert] = t('.alert') }
+      format.html { redirect_to board_timer_url(current_board), alert: t('.alert') }
+    end
   end
 
   def destroy
@@ -74,6 +79,11 @@ class Boards::TimersController < ApplicationController
       else
         format.html { redirect_to board_timer_url(current_board) }
       end
+    end
+  rescue Pundit::NotAuthorizedError
+    respond_to do |format|
+      format.turbo_stream { flash.now[:alert] = t('.alert') }
+      format.html { redirect_to board_timer_url(current_board), alert: t('.alert') }
     end
   end
 

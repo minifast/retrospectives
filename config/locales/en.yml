@@ -63,8 +63,10 @@ en:
       new: New Board
     timers:
       create:
+        alert: You are not allowed to create a timer.
         success: Timer was successfully created.
       destroy:
+        alert: You are not allowed to stop a timer.
         success: Timer was successfully destroyed.
     shares:
       show:

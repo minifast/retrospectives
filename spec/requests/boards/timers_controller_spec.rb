@@ -93,17 +93,12 @@ RSpec.describe Boards::TimersController, type: :request do
       post board_timer_url(board_id), params: {timer: timer_params}
     end
 
-    context 'when not logged in' do
-      it 'blows up' do
-        expect { make_request(board.id, duration: 300) }.to raise_error(Pundit::NotAuthorizedError)
-      end
-    end
-
     context 'when logged in as a user' do
       before { sign_in(user, scope: :user) }
 
-      it 'blows up' do
-        expect { make_request(board.id, duration: 300) }.to raise_error(Pundit::NotAuthorizedError)
+      it 'displays a flash message' do
+        make_request(board.id, duration: 300)
+        expect(flash[:alert]).to eq('You are not allowed to create a timer.')
       end
     end
 
@@ -112,8 +107,9 @@ RSpec.describe Boards::TimersController, type: :request do
 
       before { sign_in(user, scope: :user) }
 
-      it 'blows up' do
-        expect { make_request(board.id, duration: 300) }.to raise_error(Pundit::NotAuthorizedError)
+      it 'displays a flash message' do
+        make_request(board.id, duration: 300)
+        expect(flash[:alert]).to eq('You are not allowed to create a timer.')
       end
     end
 
@@ -152,8 +148,9 @@ RSpec.describe Boards::TimersController, type: :request do
         sign_in(user, scope: :user)
       end
 
-      it 'blows up' do
-        expect { make_request(board.id, duration: 300) }.to raise_error(Pundit::NotAuthorizedError)
+      it 'displays a flash message' do
+        make_request(board.id, duration: 300)
+        expect(flash[:alert]).to eq('You are not allowed to create a timer.')
       end
     end
 
@@ -207,17 +204,12 @@ RSpec.describe Boards::TimersController, type: :request do
       delete board_timer_url(board_id)
     end
 
-    context 'when not logged in' do
-      it 'blows up' do
-        expect { make_request(board.id) }.to raise_error(Pundit::NotAuthorizedError)
-      end
-    end
-
     context 'when logged in as a user' do
       before { sign_in(user, scope: :user) }
 
-      it 'blows up' do
-        expect { make_request(board.id) }.to raise_error(Pundit::NotAuthorizedError)
+      it 'displays a flash message' do
+        make_request(board.id)
+        expect(flash[:alert]).to eq('You are not allowed to stop a timer.')
       end
     end
 
@@ -226,8 +218,9 @@ RSpec.describe Boards::TimersController, type: :request do
 
       before { sign_in(user, scope: :user) }
 
-      it 'blows up' do
-        expect { make_request(board.id) }.to raise_error(Pundit::NotAuthorizedError)
+      it 'displays a flash message' do
+        make_request(board.id)
+        expect(flash[:alert]).to eq('You are not allowed to stop a timer.')
       end
     end
 
@@ -245,6 +238,20 @@ RSpec.describe Boards::TimersController, type: :request do
       it 'redirects to the timer page' do
         make_request(board.id)
         expect(response).to redirect_to(board_timer_url(board))
+      end
+    end
+
+    context 'when a guest is associated with a board with a timer' do
+      let(:user) { create(:user, :guest) }
+
+      before do
+        create(:board_user, board: board, user: user)
+        sign_in(user, scope: :user)
+      end
+
+      it 'displays a flash message' do
+        make_request(board.id)
+        expect(flash[:alert]).to eq('You are not allowed to stop a timer.')
       end
     end
 

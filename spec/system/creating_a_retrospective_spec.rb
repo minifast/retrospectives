@@ -45,7 +45,7 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     click_on 'Create Board'
 
-    expect(page).to have_content("Today's Retro").and have_text(I18n.l(Time.now.getlocal, format: :long))
+    expect(page).to have_content("Today's Retro").and have_text(I18n.l(Time.now.getlocal.to_date, format: '%B%e, %Y'))
     expect(page.all('li').size).to eq(16)
 
     scroll_to page.find('a', text: 'Next')
@@ -69,6 +69,11 @@ RSpec.describe 'Creating a retrospective', js: true do
       expect(page).to have_content("Today's Retro")
       expect(page).to have_css("img[alt='Minifast User']")
       expect(page).to have_css("img[alt='Testing Guest']")
+
+      click_on 'Timer'
+      click_on 'Start 5 minutes'
+
+      expect(page).to have_content('You are not allowed to create a timer.')
     end
 
     expect(page).to have_css("img[alt='Minifast User']")
