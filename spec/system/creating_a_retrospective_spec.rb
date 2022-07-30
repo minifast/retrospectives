@@ -69,6 +69,11 @@ RSpec.describe 'Creating a retrospective', js: true do
       expect(page).to have_content("Today's Retro")
       expect(page).to have_css("img[alt='Minifast User']")
       expect(page).to have_css("img[alt='Testing Guest']")
+
+      click_on 'Timer'
+      click_on 'Start 5 minutes'
+
+      expect(page).to have_content('Guests are not allowed to create a timer.')
     end
 
     expect(page).to have_css("img[alt='Minifast User']")

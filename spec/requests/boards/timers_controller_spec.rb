@@ -152,8 +152,9 @@ RSpec.describe Boards::TimersController, type: :request do
         sign_in(user, scope: :user)
       end
 
-      it 'blows up' do
-        expect { make_request(board.id, duration: 300) }.to raise_error(Pundit::NotAuthorizedError)
+      it 'displays a flash message' do
+        make_request(board.id, duration: 300)
+        expect(flash[:alert]).to eq('Guests are not allowed to create a timer.')
       end
     end
 
