@@ -72,3 +72,13 @@ en:
         failure: Unable to join board.
     update:
       success: Board was successfully updated.
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%b %-e"
+      long: "%B %-e, %Y"
+  time:
+    formats:
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      short: "%d %b %H:%M"
+      long: "%B %-e, %Y %-l:%M %p"
