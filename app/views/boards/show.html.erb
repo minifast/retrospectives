@@ -7,7 +7,7 @@
 </header>
 
 <div class="flex-1 flex flex-col max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8" data-controller="tabs" data-tabs-active-tab="border-orange-500 text-orange-600 hover:border-orange-600" data-tabs-index="0">
-  <nav class="block sm:hidden">
+  <nav class="block overflow-hidden overflow-x-auto sm:hidden">
     <ul class="list-reset flex border-b space-x-8">
       <% @board.columns.each do |column| %>
         <li class="border-transparent hover:border-gray-300 border-b-2 font-medium text-sm" data-tabs-target="tab" data-action="click->tabs#change">
