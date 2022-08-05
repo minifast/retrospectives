@@ -95,6 +95,11 @@ class BoardsController < ApplicationController
         target: view_context.dom_id(board, :header),
         html: BoardHeader::Component.new(board: board).render_in(view_context)
       )
+      board.broadcast_replace_later_to(
+        board,
+        target: view_context.dom_id(board, :tabs),
+        html: BoardTabs::Component.new(board: board).render_in(view_context)
+      )
       removed_columns.each do |column|
         board.broadcast_remove_to(board, target: view_context.dom_id(column))
       end
