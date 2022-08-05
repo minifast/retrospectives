@@ -299,6 +299,12 @@ RSpec.describe BoardsController, type: :request do
             .with(board.to_gid_param, hash_including(action: :replace, html: a_string_including('Friday Retro'), target: dom_id(board, 'header')))
         end
 
+        it 'broadcasts to replace columns on its tabs channel' do
+          expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }
+            .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once
+            .with(board.to_gid_param, hash_including(action: :replace, html: a_string_including('I like'), target: dom_id(board, 'tabs')))
+        end
+
         it 'broadcasts to a board to replace a column' do
           expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }
             .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once
@@ -403,6 +409,13 @@ RSpec.describe BoardsController, type: :request do
       expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once.with(
         board.to_gid_param,
         hash_including(action: :replace, html: a_string_including('Friday Retro'), target: dom_id(board, 'header'))
+      )
+    end
+
+    it 'broadcasts to replace a board on its tabs channel' do
+      expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once.with(
+        board.to_gid_param,
+        hash_including(action: :replace, html: a_string_including('I like'), target: dom_id(board, 'tabs'))
       )
     end
 
