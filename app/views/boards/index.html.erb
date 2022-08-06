@@ -1,4 +1,4 @@
-<%= turbo_stream_from 'boards' %>
+<%= turbo_stream_from current_user %>
 
 <header>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -11,6 +11,10 @@
 
 <div>
   <div class="mt-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
-    <%= render(BoardsList::Component.new(boards: @page)) %>
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+      <ul id="<%= dom_id(current_user, :boards) %>" role="list" class="divide-y divide-gray-200">
+        <%= render(BoardsList::Component.new(boards: @page)) %>
+      </ul>
+    </div>
   </div>
 </div>

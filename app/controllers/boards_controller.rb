@@ -69,10 +69,13 @@ class BoardsController < ApplicationController
       return false unless [valid?, columns_create_valid?].all?
 
       board.update(name: name, columns_attributes: columns.map(&:to_h))
-      board.broadcast_prepend_later_to(
-        'boards',
-        html: Board::Component.new(board: board).render_in(view_context)
-      )
+      board.users.each do |user|
+        board.broadcast_prepend_later_to(
+          user,
+          target: view_context.dom_id(user, :boards),
+          html: Board::Component.new(board: board).render_in(view_context)
+        )
+      end
       true
     end
 
@@ -85,11 +88,13 @@ class BoardsController < ApplicationController
       new_columns = board.columns.to_a - old_columns
       remaining_columns = board.columns.to_a - new_columns
 
-      board.broadcast_replace_later_to(
-        'boards',
-        target: view_context.dom_id(board),
-        html: Board::Component.new(board: board).render_in(view_context)
-      )
+      board.users.each do |user|
+        board.broadcast_replace_later_to(
+          user,
+          target: view_context.dom_id(user, :boards),
+          html: Board::Component.new(board: board).render_in(view_context)
+        )
+      end
       board.broadcast_replace_later_to(
         board,
         target: view_context.dom_id(board, :header),
