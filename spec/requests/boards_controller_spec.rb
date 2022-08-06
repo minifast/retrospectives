@@ -163,10 +163,10 @@ RSpec.describe BoardsController, type: :request do
         expect(response).to redirect_to(boards_url)
       end
 
-      it 'sends a board to the boards channel' do
+      it 'sends a board to the user channel' do
         expect { make_request(name: 'Thursday Retro', columns_attributes: {'0' => {name: 'Happy'}}) }
           .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob)
-          .with('boards', hash_including(action: :prepend, html: a_string_including('Thursday Retro')))
+          .with(user.to_gid_param, hash_including(action: :prepend, target: dom_id(user, :boards), html: a_string_including('Thursday Retro')))
       end
     end
 
@@ -287,10 +287,10 @@ RSpec.describe BoardsController, type: :request do
           expect(response).to redirect_to(board_url(board))
         end
 
-        it 'broadcasts to replace a board on the boards channel' do
+        it 'broadcasts to replace a board on the user channel' do
           expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }
             .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once
-            .with('boards', hash_including(action: :replace, html: a_string_including('Friday Retro'), target: dom_id(board)))
+            .with(user.to_gid_param, hash_including(action: :replace, html: a_string_including('Friday Retro'), target: dom_id(user, :boards)))
         end
 
         it 'broadcasts to replace a board on its header channel' do
@@ -398,10 +398,10 @@ RSpec.describe BoardsController, type: :request do
       expect(board.reload.attributes.symbolize_keys).to include(name: 'Friday Retro')
     end
 
-    it 'broadcasts to replace a board on the boards channel' do
+    it 'broadcasts to replace a board on the user channel' do
       expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once.with(
-        'boards',
-        hash_including(action: :replace, html: a_string_including('Friday Retro'), target: dom_id(board))
+        user.to_gid_param,
+        hash_including(action: :replace, html: a_string_including('Friday Retro'), target: dom_id(user, :boards))
       )
     end
 

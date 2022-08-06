@@ -10,6 +10,6 @@ RSpec.describe BoardsList::Component, type: :component do
   context 'when there is a board' do
     before { create(:board, name: 'Longboard') }
 
-    it { is_expected.to have_content('Longboard').and have_text(I18n.l(Time.current.utc.to_date, format: :long)) }
+    it { is_expected.to have_content('Longboard').and have_text(I18n.l(Time.current.utc, format: :long)) }
   end
 end
