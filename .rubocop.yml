@@ -39,11 +39,18 @@ RSpec/ExampleLength:
     - spec/system/**/*.rb
 
 I18n/RailsI18n:
-  Enabled: true
   Exclude:
     - bin/*
-    - db/*
+    - db/**/*.rb
     - spec/**/*
 
 I18n/GetText:
   Enabled: false
+
+Rails/ApplicationRecord:
+  Exclude:
+    - db/**/*.rb
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - db/**/*.rb
