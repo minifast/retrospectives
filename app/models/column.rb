@@ -2,11 +2,12 @@
 #
 # Table name: columns
 #
-#  id         :bigint           not null, primary key
-#  name       :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  board_id   :bigint           not null
+#  id           :bigint           not null, primary key
+#  column_order :integer
+#  name         :string           not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  board_id     :bigint           not null
 #
 # Indexes
 #
@@ -18,10 +19,15 @@
 #
 class Column < ApplicationRecord
   include Hashid::Rails
+  include RankedModel
+
+  ranks :column_order
 
   belongs_to :board, inverse_of: :columns
 
   has_many :topics, inverse_of: :column, dependent: :destroy
 
   validates :name, presence: true, uniqueness: {scope: :board_id}
+
+  scope :ranked, -> { rank(:column_order).all }
 end
