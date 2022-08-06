@@ -14,7 +14,7 @@
   <div class="sm:max-w-7xl sm:w-full sm:mx-auto sm:px-6 lg:px-8">
     <div class="flex-1 flex sm:divide-x sm:divide-gray-200">
       <%= turbo_frame_tag dom_id(@board, :columns), class: 'contents' do %>
-        <%= render(BoardColumn::Component.with_collection(@board.columns)) %>
+        <%= render(BoardColumn::Component.with_collection(@board.columns.ranked)) %>
       <% end %>
     </div>
   </div>
