@@ -5,8 +5,9 @@ const formatDistanceToNow = (date) => {
   let hours = Math.floor((date / (1000 * 60 * 60)) % 24)
   let minutes = Math.floor((date / 1000 / 60) % 60)
   let seconds = Math.floor((date / 1000) % 60)
-  let output = [days, hours, minutes].filter(time => time > 0)
-  if (seconds > 10) {
+  let output = [days, hours].filter(time => time > 0)
+  output.push(minutes)
+  if (seconds >= 10) {
     output.push(seconds)
   } else {
     output.push(`0${seconds}`)
@@ -25,10 +26,8 @@ export default class extends Timeago {
     const now = (new Date()).getTime()
     this.isValid = !Number.isNaN(date) && date >= now
 
-    if (this.isValid) {
-      this.element.innerHTML = formatDistanceToNow(date - now)
-    } else {
-      this.element.innerHTML = '0:00'
+    this.element.innerHTML = formatDistanceToNow(Math.max(0, date - now))
+    if (!this.isValid) {
       this.stopRefreshing()
     }
   }
