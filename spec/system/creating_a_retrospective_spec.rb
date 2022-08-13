@@ -121,19 +121,19 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     expect(page).to have_content(/\d:\d\d/)
 
-    within('[aria-label="I want"]') do
-      fill_in 'Topic name', with: 'Tacos'
-      click_on 'Create Topic'
-    end
-
     using_session(:guest) do
       within('[aria-label="I want"]') do
-        expect(page).to have_content('Tacos')
+        fill_in 'Topic name', with: 'Tacos'
+        click_on 'Create Topic'
       end
 
       click_on 'Sign in'
 
-      expect(page).to have_content('Retro of the Day')
+      click_on 'Retro of the Day'
+
+      page.find('button', text: /\d:\d\d/).click
+
+      click_on 'Stop Timer'
     end
 
     within('[aria-label="I want"]') do
@@ -142,10 +142,6 @@ RSpec.describe 'Creating a retrospective', js: true do
       click_on 'Delete Topic'
       expect(page).to have_no_content('Tacos')
     end
-
-    page.find('button', text: /\d:\d\d/).click
-
-    click_on 'Stop Timer'
 
     expect(page).to have_content('Timer')
 
