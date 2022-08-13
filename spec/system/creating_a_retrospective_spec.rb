@@ -130,6 +130,10 @@ RSpec.describe 'Creating a retrospective', js: true do
       within('[aria-label="I want"]') do
         expect(page).to have_content('Tacos')
       end
+
+      click_on 'Sign in'
+
+      expect(page).to have_content('Retro of the Day')
     end
 
     within('[aria-label="I want"]') do
@@ -146,7 +150,6 @@ RSpec.describe 'Creating a retrospective', js: true do
     expect(page).to have_content('Timer')
 
     using_session(:guest) do |guest_session, main_session|
-      expect(page).to have_content('Timer')
       guest_session.quit
       main_session.quit
     end
