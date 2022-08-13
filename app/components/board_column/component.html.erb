@@ -1,11 +1,9 @@
-<%= turbo_frame_tag dom_id(column), class: 'flex flex-col flex-1 hidden sm:flex', data: {tabs_target: 'panel'} do %>
-  <section class="flex flex-col flex-1 hidden sm:flex" data-tabs-target="panel" aria-label="<%= column.name %>">
-    <div class="px-4 pt-6 pb-4 bg-gray-50">
-      <div class="hidden sm:block">
-        <%= render(ColumnTitle::Component.new(column: column)) %>
-      </div>
-      <%= render(TopicForm::Component.new(topic: column.topics.new)) %>
+<%= turbo_frame_tag dom_id(column), class: 'flex flex-col flex-1 hidden sm:flex', data: {tabs_target: 'panel'}, aria: {label: column.name} do %>
+  <div class="px-4 pt-6 pb-4 bg-gray-50">
+    <div class="hidden sm:block">
+      <%= render(ColumnTitle::Component.new(column: column)) %>
     </div>
-    <%= turbo_frame_tag dom_id(column, :topics), src: board_column_topics_path(column.board, column) %>
-  </section>
+    <%= render(TopicForm::Component.new(topic: column.topics.new)) %>
+  </div>
+  <%= turbo_frame_tag dom_id(column, :topics), src: board_column_topics_path(column.board, column) %>
 <% end %>

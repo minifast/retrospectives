@@ -13,7 +13,7 @@
 
   <div class="sm:flex-1 sm:flex sm:max-w-7xl sm:w-full sm:mx-auto sm:px-6 lg:px-8">
     <div class="flex-1 flex sm:border-l sm:border-r sm:border-gray-200 sm:shadow-sm">
-      <%= turbo_frame_tag dom_id(@board, :columns), class: 'sm:flex-1 sm:flex sm:divide-x sm:divide-gray-200' do %>
+      <%= turbo_frame_tag dom_id(@board, :columns), class: 'flex-1 sm:flex sm:divide-x sm:divide-gray-200' do %>
         <%= render(BoardColumn::Component.with_collection(@board.columns.ranked)) %>
       <% end %>
     </div>
