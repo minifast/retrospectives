@@ -121,13 +121,13 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     expect(page).to have_content(/\d:\d\d/)
 
-    within('section[title="I want"]') do
+    within('section[aria-label="I want"]') do
       fill_in 'Topic name', with: 'Tacos'
       click_on 'Create Topic'
     end
 
     using_session(:guest) do
-      within('section[title="I want"]') do
+      within('section[aria-label="I want"]') do
         expect(page).to have_content('Tacos')
       end
     end
