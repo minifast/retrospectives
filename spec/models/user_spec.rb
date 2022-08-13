@@ -4,6 +4,7 @@ RSpec.describe User, type: :model do
   subject(:user) { build(:user) }
 
   it { is_expected.to have_many(:board_users).inverse_of(:user).dependent(:destroy) }
+  it { is_expected.to have_many(:topics).inverse_of(:user).dependent(:destroy) }
   it { is_expected.to have_many(:boards).through(:board_users) }
 
   it { is_expected.to validate_presence_of(:name) }

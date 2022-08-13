@@ -12,11 +12,11 @@ class TopicPolicy < ApplicationPolicy
   end
 
   def update?
-    show? && create?
+    show? && user.id == record.user_id
   end
 
   def destroy?
-    show? && create?
+    show? && update?
   end
 
   class Scope < Scope

@@ -52,7 +52,13 @@ RSpec.describe TopicPolicy, type: :policy do
     context 'when the user is associated with the board' do
       before { create(:board_user, board: board, user: user) }
 
-      it { is_expected.to permit(user, topic) }
+      it { is_expected.not_to permit(user, topic) }
+
+      context 'when the user created the topic' do
+        let!(:topic) { create(:topic, column: column, user: user) }
+
+        it { is_expected.to permit(user, topic) }
+      end
     end
 
     context 'when the user is a guest' do
@@ -60,7 +66,13 @@ RSpec.describe TopicPolicy, type: :policy do
 
       before { create(:board_user, board: board, user: user) }
 
-      it { is_expected.to permit(user, topic) }
+      it { is_expected.not_to permit(user, topic) }
+
+      context 'when the guest created the topic' do
+        let!(:topic) { create(:topic, column: column, user: user) }
+
+        it { is_expected.to permit(user, topic) }
+      end
     end
   end
 end
