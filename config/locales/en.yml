@@ -51,6 +51,9 @@ en:
       topics:
         create:
           success: Topic was successfully created.
+        destroy:
+          alert: You are not allowed to delete this topic.
+          success: Topic was successfully destroyed.
     create:
       success: Board was successfully created.
     destroy:

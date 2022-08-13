@@ -7,5 +7,5 @@ RSpec.describe Topic::Component, type: :component do
 
   let(:topic) { create(:topic, name: 'Lunch') }
 
-  it { is_expected.to have_content('Lunch') }
+  it { is_expected.to have_content('Lunch').and have_button('Actions').and have_button('Delete Topic') }
 end

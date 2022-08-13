@@ -61,7 +61,7 @@ class Boards::TimersController < ApplicationController
         format.html { render :show, status: :unprocessable_entity }
       end
     end
-  rescue Pundit::NotAuthorizedError
+  rescue Pundit::NotAuthorizedError, ActiveRecord::RecordNotFound
     respond_to do |format|
       format.turbo_stream { flash.now[:alert] = t('.alert') }
       format.html { redirect_to board_timer_url(current_board), alert: t('.alert') }
@@ -69,7 +69,7 @@ class Boards::TimersController < ApplicationController
   end
 
   def destroy
-    authorize(current_board, :update?)
+    authorize(current_timer)
     @timer = TimerForm.new(board: current_board)
 
     respond_to do |format|
@@ -80,7 +80,7 @@ class Boards::TimersController < ApplicationController
         format.html { redirect_to board_timer_url(current_board) }
       end
     end
-  rescue Pundit::NotAuthorizedError
+  rescue Pundit::NotAuthorizedError, ActiveRecord::RecordNotFound
     respond_to do |format|
       format.turbo_stream { flash.now[:alert] = t('.alert') }
       format.html { redirect_to board_timer_url(current_board), alert: t('.alert') }
@@ -88,6 +88,10 @@ class Boards::TimersController < ApplicationController
   end
 
   private
+
+  def current_timer
+    @current_timer ||= Timer.find_by!(board_id: current_board.id)
+  end
 
   def current_board
     @current_board ||= Board.find(params[:board_id])

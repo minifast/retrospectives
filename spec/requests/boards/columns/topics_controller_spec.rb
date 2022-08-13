@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Boards::Columns::TopicsController, type: :request do
   let(:board) { create(:board) }
   let(:column) { create(:column, board: board) }
+  let(:user) { create(:user) }
 
   describe 'GET #index' do
     before { create(:topic, column: column, name: 'beans') }
@@ -164,6 +165,62 @@ RSpec.describe Boards::Columns::TopicsController, type: :request do
         expect { make_request(board.id, column.id, name: 'Taco') }
           .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob)
           .with(board.to_gid_param, hash_including(action: :prepend, html: a_string_including('Taco')))
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let(:column) { create(:column, board: board) }
+    let!(:topic) { create(:topic, column: column) }
+
+    def make_request(board_id, column_id, topic_id)
+      delete board_column_topic_url(board_id, column_id, topic_id)
+    end
+
+    context 'when logged in as a user' do
+      before { sign_in(user, scope: :user) }
+
+      it 'displays a flash message' do
+        make_request(board.id, column.id, topic.id)
+        expect(flash[:alert]).to eq('You are not allowed to delete this topic.')
+      end
+    end
+
+    context 'when logged in as a guest' do
+      let(:user) { create(:user, :guest) }
+
+      before { sign_in(user, scope: :user) }
+
+      it 'displays a flash message' do
+        make_request(board.id, column.id, topic.id)
+        expect(flash[:alert]).to eq('You are not allowed to delete this topic.')
+      end
+    end
+
+    context 'when the user created a topic on an associated board' do
+      before do
+        create(:board_user, board: board, user: user)
+        sign_in(user, scope: :user)
+      end
+
+      it 'destroys the requested topic' do
+        expect { make_request(board.id, column.id, topic.id) }.to change(Topic, :count).by(-1)
+      end
+
+      it 'redirects to the topic page' do
+        make_request(board.id, column.id, topic.id)
+        expect(response).to redirect_to(board_column_topic_path(board, column, topic))
+      end
+
+      it 'displays a flash message' do
+        make_request(board.id, column.id, topic.id)
+        expect(flash[:notice]).to eq('Topic was successfully destroyed.')
+      end
+
+      it 'broadcasts to a board to remove a topic' do
+        expect { make_request(board.id, column.id, topic.id) }
+          .to have_broadcasted_to(board.to_gid_param).once
+          .with(a_string_including('remove').and(a_string_including(dom_id(topic))))
       end
     end
   end

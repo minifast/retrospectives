@@ -27,14 +27,37 @@ class Boards::Columns::TopicsController < ApplicationController
     end
   end
 
+  def destroy
+    authorize(current_topic)
+
+    respond_to do |format|
+      if current_topic.destroy
+        current_board.broadcast_remove_to(current_board, target: view_context.dom_id(current_topic))
+        format.turbo_stream { flash.now[:notice] = t('.success') }
+        format.html { redirect_to board_column_topic_path(current_board, current_column, current_topic), notice: t('.success') }
+      else
+        format.html { redirect_to board_column_topic_path(current_board, current_column, current_topic) }
+      end
+    end
+  rescue Pundit::NotAuthorizedError, ActiveRecord::RecordNotFound
+    respond_to do |format|
+      format.turbo_stream { flash.now[:alert] = t('.alert') }
+      format.html { redirect_to board_timer_url(current_board), alert: t('.alert') }
+    end
+  end
+
   private
 
   def current_board
-    @board ||= Board.find(params[:board_id])
+    @current_board ||= Board.find(params[:board_id])
   end
 
   def current_column
-    @column ||= current_board.columns.find(params[:column_id])
+    @current_column ||= current_board.columns.find(params[:column_id])
+  end
+
+  def current_topic
+    @current_topic ||= current_column.topics.find(params[:id])
   end
 
   def topic_params

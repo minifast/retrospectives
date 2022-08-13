@@ -245,6 +245,7 @@ RSpec.describe Boards::TimersController, type: :request do
       let(:user) { create(:user, :guest) }
 
       before do
+        create(:timer, board: board, duration: 6.minutes)
         create(:board_user, board: board, user: user)
         sign_in(user, scope: :user)
       end
