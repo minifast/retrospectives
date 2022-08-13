@@ -1,5 +1,26 @@
-<div class="relative px-6 py-5 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500">
-  <p class="text-sm font-medium text-gray-900">
-    <%= topic.name %>
-  </p>
-</div>
+<%= turbo_frame_tag dom_id(topic) do %>
+  <div class="relative px-6 py-5 flex items-center justify-between hover:bg-gray-50">
+    <p class="text-sm font-medium text-gray-900"><%= topic.name %></p>
+    <div class="relative inline-block text-left" data-controller="dropdown">
+      <div>
+        <%= button_tag type: 'button', class: 'inline-flex justify-center w-full rounded-md px-2.5 py-2 text-sm font-medium text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-orange-500', data: {action: 'dropdown#toggle click@window->dropdown#hide'} do %>
+          <span class="sr-only">Actions</span>
+          <%= inline_svg_tag 'topic/dots.svg', class: 'h-5 w-5' %>
+        <% end %>
+      </div>
+
+      <div role="menu"
+        class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50 focus:outline-none"
+        data-dropdown-target="menu"
+        data-transition-enter-from="opacity-0 scale-95"
+        data-transition-enter-to="opacity-100 scale-100"
+        data-transition-leave-from="opacity-100 scale-100"
+        data-transition-leave-to="opacity-0 scale-95"
+        aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+        <div class="py-1" role="none">
+          <%= button_to 'Delete Topic ', board_column_topic_path(topic.board, topic.column, topic), method: :delete, class: 'text-gray-700 block px-4 py-2 text-sm', role: 'menuitem', data: {action: 'dropdown#toggle'} %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

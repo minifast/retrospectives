@@ -132,6 +132,13 @@ RSpec.describe 'Creating a retrospective', js: true do
       end
     end
 
+    within('section[title="I want"]') do
+      expect(page).to have_content('Tacos')
+      click_on 'Actions'
+      click_on 'Delete Topic'
+      expect(page).to have_no_content('Tacos')
+    end
+
     page.find('button', text: /\d:\d\d/).click
 
     click_on 'Stop Timer'

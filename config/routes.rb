@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :shares, only: [:show], param: :share_token, module: :boards
     resource :timer, only: [:show, :create, :destroy], module: :boards
     resources :columns, only: [], module: :boards do
-      resources :topics, only: [:index, :new, :create], module: :columns
+      resources :topics, only: [:index, :new, :create, :destroy], module: :columns
     end
   end
 
