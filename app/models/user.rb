@@ -18,6 +18,7 @@ class User < ApplicationRecord
   devise :omniauthable, omniauth_providers: [:google_oauth2]
 
   has_many :board_users, inverse_of: :user, dependent: :destroy
+  has_many :topics, inverse_of: :user, dependent: :destroy
   has_many :boards, through: :board_users
 
   validates :email, :name, :image_url, presence: true

@@ -197,7 +197,21 @@ RSpec.describe Boards::Columns::TopicsController, type: :request do
       end
     end
 
+    context 'when the user did not create a topic on an associated board' do
+      before do
+        create(:board_user, board: board, user: user)
+        sign_in(user, scope: :user)
+      end
+
+      it 'displays a flash message' do
+        make_request(board.id, column.id, topic.id)
+        expect(flash[:alert]).to eq('You are not allowed to delete this topic.')
+      end
+    end
+
     context 'when the user created a topic on an associated board' do
+      let!(:topic) { create(:topic, column: column, user: user) }
+
       before do
         create(:board_user, board: board, user: user)
         sign_in(user, scope: :user)

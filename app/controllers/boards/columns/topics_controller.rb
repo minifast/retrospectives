@@ -13,7 +13,7 @@ class Boards::Columns::TopicsController < ApplicationController
 
   def create
     authorize(current_board, :show?)
-    @topic = current_column.topics.new(topic_params)
+    @topic = current_column.topics.new(topic_params.merge(user: current_or_guest_user))
 
     if @topic.save
       current_board.broadcast_prepend_later_to(
