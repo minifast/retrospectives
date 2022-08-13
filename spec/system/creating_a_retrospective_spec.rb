@@ -1,21 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe 'Creating a retrospective', js: true do
+RSpec.describe 'Creating a retrospective', :js, type: :system do
   before do
     OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(uid: '123545', info: {email: 'user@ministryofvelocity.com', name: 'Minifast User', image: 'https://placekitten.com/80/80'})
     Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:google_oauth2]
-    page.driver.browser.execute_cdp(
-      'Browser.setPermission',
-      origin: page.server_url,
-      permission: {name: 'clipboard-read'},
-      setting: 'granted'
-    )
-    page.driver.browser.execute_cdp(
-      'Browser.setPermission',
-      origin: page.server_url,
-      permission: {name: 'clipboard-write'},
-      setting: 'granted'
-    )
   end
 
   it 'adds a board' do
@@ -60,7 +48,7 @@ RSpec.describe 'Creating a retrospective', js: true do
 
     click_on 'Copy Invite Link'
 
-    invite_url = page.evaluate_async_script('navigator.clipboard.readText().then(arguments[0])')
+    invite_url = find('input[data-clipboard-target]', visible: false).value
     expect(invite_url).to end_with(board_share_path(Board.most_recent.first, Board.most_recent.first.share_token))
 
     using_session(:guest) do
