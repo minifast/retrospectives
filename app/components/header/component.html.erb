@@ -12,12 +12,14 @@
           <% end %>
         </div>
       </div>
-      <% if user_signed_in? %>
-        <div class="flex items-center">
+      <div class="flex items-center">
+        <% if user_signed_in? %>
           <%= button_to 'Sign out', user_session_path, class: 'text-gray-900 inline-flex items-center text-sm font-medium', method: :delete, data: {turbo: false} %>
-          <%= image_tag current_user.image_url, class: 'hidden h-8 w-8 rounded-full sm:block sm:ml-4', alt: current_user.name %>
-        </div>
-      <% end %>
+          <%= image_tag current_user.image_url, class: 'hidden h-8 w-8 rounded-full sm:block sm:ml-4', alt: current_user.name, onerror: "this.src = '#{asset_path('avatar/profile.svg')}'" %>
+        <% else %>
+          <%= button_to 'Sign in', user_google_oauth2_omniauth_authorize_path, class: 'text-gray-900 inline-flex items-center text-sm font-medium', method: :post, data: {turbo: false} %>
+        <% end %>
+      </div>
     </div>
   </div>
 </nav>
