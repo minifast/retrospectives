@@ -10,7 +10,7 @@ Capybara.register_driver(:cuprite) do |app|
   Capybara::Cuprite::Driver.new(
     app,
     window_size: [1920, 1080],
-    headless: false
+    headless: true
   )
 end
 

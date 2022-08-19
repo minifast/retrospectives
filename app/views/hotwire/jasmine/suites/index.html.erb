@@ -1,0 +1,8 @@
+<%= turbo_stream_from 'hotwire_jasmine' %>
+<%= turbo_frame_tag 'hotwire_jasmine' do %>
+  <%= render partial: 'suite', locals: {suites: @suites} %>
+<% end %>
+
+<% @suites.each do |suite| %>
+  <%= content_tag(:iframe, nil, id: suite.id.parameterize, style: 'display: none;', loading: :eager, src: hotwire_jasmine_suite_path(suite.id), data: {controller: 'actioncable-reporter iframe-client', action: 'message@window->iframe-client#receive jasmine:started->actioncable-reporter#post jasmine:suite:started->actioncable-reporter#post jasmine:spec:started->actioncable-reporter#post jasmine:spec:done->actioncable-reporter#post jasmine:suite:done->actioncable-reporter#post jasmine:done->actioncable-reporter#post'}) %>
+<% end %>
