@@ -33,6 +33,51 @@ const REALISTIC_CONFETTI = [
     particleCount: 10,
     spread: 120,
     startVelocity: 45,
+  },
+  {
+    origin: { y: 0.7 },
+    particleCount: 50,
+    spread: 120,
+    startVelocity: 75,
+  },
+  {
+    origin: { y: 0.7 },
+    particleCount: 30,
+    spread: 120,
+    startVelocity: 55,
+    scalar: 1.2
+  },
+  {
+    origin: { y: 0.7 },
+    particleCount: 20,
+    spread: 90,
+    decay: 0.90,
+    scalar: 1.5,
+    startVelocity: 50
+  },
+  {
+    origin: { y: 0.7 },
+    particleCount: 20,
+    spread: 90,
+    decay: 0.90,
+    scalar: 2.5,
+    startVelocity: 80
+  },
+  {
+    origin: { y: 0.7 },
+    particleCount: 10,
+    spread: 180,
+    decay: 0.90,
+    scalar: 5,
+    startVelocity: 110
+  },
+  {
+    origin: { y: 0.7 },
+    particleCount: 5,
+    spread: 180,
+    decay: 0.90,
+    scalar: 10,
+    startVelocity: 120
   }
 ]
 
