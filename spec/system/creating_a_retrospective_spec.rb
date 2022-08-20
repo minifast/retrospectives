@@ -127,8 +127,12 @@ RSpec.describe 'Creating a retrospective', :js, type: :system do
     within('[aria-label="I want"]') do
       expect(page).to have_content('Tacos')
       click_on 'Actions'
+      click_on 'Edit Topic'
+      fill_in 'Topic name', with: 'Tortas'
+      expect(page).to have_content('Tortas')
+      click_on 'Actions'
       click_on 'Delete Topic'
-      expect(page).to have_no_content('Tacos')
+      expect(page).to have_no_content('Tortas')
     end
 
     expect(page).to have_content('Timer')

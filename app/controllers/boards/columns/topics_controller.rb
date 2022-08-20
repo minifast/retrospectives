@@ -27,6 +27,10 @@ class Boards::Columns::TopicsController < ApplicationController
     end
   end
 
+  def edit
+    authorize(current_topic)
+  end
+
   def destroy
     authorize(current_topic)
 

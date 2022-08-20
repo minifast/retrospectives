@@ -169,6 +169,56 @@ RSpec.describe Boards::Columns::TopicsController, type: :request do
     end
   end
 
+  describe 'GET #edit' do
+    let(:column) { create(:column, board: board) }
+    let!(:topic) { create(:topic, column: column) }
+
+    def make_request(board_id, column_id, topic_id)
+      get edit_board_column_topic_url(board_id, column_id, topic_id)
+    end
+
+    context 'when logged in as a user' do
+      before { sign_in(user, scope: :user) }
+
+      it 'displays a flash message' do
+        make_request(board.id, column.id, topic.id)
+        expect(flash[:alert]).to eq('You are not allowed to edit this topic.')
+    end
+
+    context 'when logged in as a guest' do
+      before { sign_in(user, scope: :guest) }
+
+      it 'displays a flash message' do
+        make_request(board.id, column.id, topic.id)
+        expect(flash[:alert]).to eq('You are not allowed to edit this topic')
+    end
+
+    context 'when the user did not create a topic on an associated board' do
+       before do
+        create(:board_user, board: board, user: user)
+        sign_in(user, scope: :user)
+      end
+
+      it 'displays a flash message' do
+        make_request(board.id, column.id, topic.id)
+        expect(flash[:alert]).to eq('You are not allowed to delete this topic.')
+      end
+    end
+
+    context 'when the user created a topic on an associated board' do
+      let!(:topic) { create(:topic, column: column, user: user) }
+
+      before do
+        create(:board_user, board: board, user: user)
+        sign_in(user, scope: :user)
+      end
+
+      it 'renames the requested topic' do
+        expect { make_request(board.id, column.id, topic.id) }.to change(topic, :name ).from('Tacos').to('Tortas')
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     let(:column) { create(:column, board: board) }
     let!(:topic) { create(:topic, column: column) }
