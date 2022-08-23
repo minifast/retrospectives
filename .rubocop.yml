@@ -12,6 +12,7 @@ AllCops:
   NewCops: enable
   Exclude:
     - db/schema.rb
+    - tmp/**/*
 
 Style/StringLiterals:
   Enabled: true
