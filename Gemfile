@@ -10,7 +10,7 @@ gem 'pg', '~> 1.1'
 gem 'propshaft'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 7.0.3'
-gem 'redis', '~> 4.0'
+gem 'redis', '~> 5.0'
 
 gem 'devise'
 gem 'devise-guests'
