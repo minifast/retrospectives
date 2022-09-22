@@ -58,5 +58,5 @@ end
 group :test do
   gem 'capybara', '>= 3.26'
   gem 'cuprite'
-  gem 'shoulda-matchers', '~> 5.0'
+  gem 'shoulda-matchers', '~> 5.2'
 end
