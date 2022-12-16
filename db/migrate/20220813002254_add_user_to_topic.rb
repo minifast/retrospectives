@@ -11,7 +11,10 @@ class AddUserToTopic < ActiveRecord::Migration[7.0]
     add_reference :topics, :user, foreign_key: true
 
     reversible do |dir|
-      dir.up { Topic20220812.update_all(user_id: User20220812.first.id) }
+      dir.up do
+        user = User20220812.first
+        Topic20220812.update_all(user_id: user.id) if user.present?
+      end
     end
 
     change_column_null :topics, :user_id, false
