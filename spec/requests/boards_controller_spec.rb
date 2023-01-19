@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe BoardsController, type: :request do
+RSpec.describe BoardsController do
   let(:user) { create(:user) }
 
   describe 'GET #index' do
@@ -226,14 +226,9 @@ RSpec.describe BoardsController, type: :request do
         expect { make_request(name: 'Thursday Retro', columns_attributes: {'0' => {name: 'Happy'}}) }.to change(Board, :count).by(1)
       end
 
-      it 'purges the slideover' do
+      it 'redirects to the boards index' do
         make_request(name: 'Thursday Retro', columns_attributes: {'0' => {name: 'Happy'}})
-        expect(page.css('turbo-stream[target=slideover] turbo-frame#slideover').children).to be_empty
-      end
-
-      it 'displays a flash message' do
-        make_request(name: 'Thursday Retro', columns_attributes: {'0' => {name: 'Happy'}})
-        expect(page.css('turbo-stream[target=flash] turbo-frame#flash')).to have_text('Board was successfully created')
+        expect(response).to redirect_to(boards_url)
       end
     end
   end
@@ -419,14 +414,9 @@ RSpec.describe BoardsController, type: :request do
       )
     end
 
-    it 'purges the slideover' do
+    it 'redirects to the board' do
       make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}})
-      expect(page.css('turbo-stream[target=slideover] turbo-frame#slideover').children).to be_empty
-    end
-
-    it 'displays a flash message' do
-      make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}})
-      expect(page.css('turbo-stream[target=flash] turbo-frame#flash')).to have_text('Board was successfully updated')
+      expect(response).to redirect_to(board_url(board))
     end
   end
 

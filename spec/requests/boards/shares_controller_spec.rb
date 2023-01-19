@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Boards::SharesController, type: :request do
+RSpec.describe Boards::SharesController do
   describe 'GET #show' do
     let(:board) { create(:board) }
 

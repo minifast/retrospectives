@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Boards::TimersController, type: :request do
+RSpec.describe Boards::TimersController do
   let(:board) { create(:board) }
   let(:user) { create(:user) }
 

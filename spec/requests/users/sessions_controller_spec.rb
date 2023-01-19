@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Users::SessionsController, type: :request do
+RSpec.describe Users::SessionsController do
   describe 'DELETE #destroy' do
     context 'when a user is logged in' do
       let(:user) { create(:user) }

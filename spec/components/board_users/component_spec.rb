@@ -7,7 +7,7 @@ RSpec.describe BoardUsers::Component, type: :component do
 
   let(:board) { create(:board, name: 'Cheeseboard') }
 
-  it { is_expected.to have_no_css('img') }
+  it { is_expected.not_to have_css('img') }
 
   context 'when a user is attached to the board' do
     let(:user) { create(:user, name: 'Minifast User') }

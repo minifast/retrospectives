@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Board, type: :model do
+RSpec.describe Board do
   subject(:board) { build(:board) }
 
   it { is_expected.to have_many(:board_users).inverse_of(:board).dependent(:destroy) }

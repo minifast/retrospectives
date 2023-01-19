@@ -65,6 +65,31 @@ class BoardsController < ApplicationController
       @columns&.map { |c| c.valid?(:update) }&.all?
     end
 
+    def index
+      authorize(Board)
+      set_page_and_extract_portion_from policy_scope(Board), ordered_by: {created_at: :desc, id: :desc}
+    end
+
+    def show
+      authorize(current_board)
+      @board = current_board
+    end
+
+    def new
+      authorize(Board)
+      @board = BoardForm.new(board: Board.new(users: [current_user]), columns: [
+        ColumnForm.new(name: 'Happy'),
+        ColumnForm.new(name: 'Meh'),
+        ColumnForm.new(name: 'Sad')
+      ])
+    end
+
+    def edit
+      authorize(current_board)
+      columns = current_board.columns.map { |c| ColumnForm.new(id: c.id, name: c.name) }
+      @board = BoardForm.new(board: current_board, name: current_board.name, columns: columns)
+    end
+
     def create(view_context)
       return false unless [valid?, columns_create_valid?].all?
 
@@ -77,6 +102,20 @@ class BoardsController < ApplicationController
         )
       end
       true
+    end
+
+    def create
+      authorize(Board)
+      @board = BoardForm.new(board_params.merge(board: Board.new(users: [current_user])))
+
+      respond_to do |format|
+        if @board.create(view_context)
+          format.turbo_stream { redirect_to boards_url, status: :see_other, notice: t('.success') }
+          format.html { redirect_to boards_url, notice: t('.success') }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+        end
+      end
     end
 
     def update(view_context)
@@ -126,52 +165,13 @@ class BoardsController < ApplicationController
     end
   end
 
-  def index
-    authorize(Board)
-    set_page_and_extract_portion_from policy_scope(Board), ordered_by: {created_at: :desc, id: :desc}
-  end
-
-  def show
-    authorize(current_board)
-    @board = current_board
-  end
-
-  def new
-    authorize(Board)
-    @board = BoardForm.new(board: Board.new(users: [current_user]), columns: [
-      ColumnForm.new(name: 'Happy'),
-      ColumnForm.new(name: 'Meh'),
-      ColumnForm.new(name: 'Sad')
-    ])
-  end
-
-  def edit
-    authorize(current_board)
-    columns = current_board.columns.map { |c| ColumnForm.new(id: c.id, name: c.name) }
-    @board = BoardForm.new(board: current_board, name: current_board.name, columns: columns)
-  end
-
-  def create
-    authorize(Board)
-    @board = BoardForm.new(board_params.merge(board: Board.new(users: [current_user])))
-
-    respond_to do |format|
-      if @board.create(view_context)
-        format.turbo_stream { flash.now[:notice] = t('.success') }
-        format.html { redirect_to boards_url, notice: t('.success') }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
-    end
-  end
-
   def update
     authorize(current_board)
     @board = BoardForm.new(board_params.merge(board: current_board))
 
     respond_to do |format|
       if @board.update(view_context)
-        format.turbo_stream { flash.now[:notice] = t('.success') }
+        format.turbo_stream { redirect_to board_url(current_board), status: :see_other, notice: t('.success') }
         format.html { redirect_to board_url(current_board), notice: t('.success') }
       else
         format.html { render :edit, status: :unprocessable_entity }

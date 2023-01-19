@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Column, type: :model do
+RSpec.describe Column do
   subject(:column) { build(:column) }
 
   it { is_expected.to belong_to(:board).inverse_of(:columns) }

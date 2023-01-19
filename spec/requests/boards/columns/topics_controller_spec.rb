@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Boards::Columns::TopicsController, type: :request do
+RSpec.describe Boards::Columns::TopicsController do
   let(:board) { create(:board) }
   let(:column) { create(:column, board: board) }
   let(:user) { create(:user) }
