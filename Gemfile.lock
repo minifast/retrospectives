@@ -281,7 +281,7 @@ GEM
       rack
       railties (>= 7.0.0)
     public_suffix (5.0.1)
-    puma (5.6.5)
+    puma (6.0.2)
       nio4r (~> 2.0)
     pundit (2.3.0)
       activesupport (>= 3.0.0)
@@ -472,7 +472,7 @@ DEPENDENCIES
   pronto-erb_lint!
   pronto-rubocop
   propshaft
-  puma (~> 5.0)
+  puma (~> 6.0)
   pundit (~> 2.2)
   rack-mini-profiler
   rails (~> 7.0.3)
