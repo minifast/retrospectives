@@ -20,6 +20,7 @@ Bundler.require(*Rails.groups)
 module Retrospectives
   class Application < Rails::Application
     config.load_defaults 7.0
+    config.autoload_paths << config.root.join('lib')
     config.generators do |g|
       g.helper false
       g.assets false

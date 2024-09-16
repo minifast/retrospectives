@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <title>Jasmine</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= javascript_inline_importmap_tag(JSON.pretty_generate(JSON.parse(Rails.application.importmap.to_json(resolver: self)).deep_merge('imports' => Hotwire::Jasmine::SuiteFinder.resolve.map(&:to_h).reduce(:+)))) %>
+    <%= javascript_importmap_module_preload_tags %>
+    <%= javascript_module_preload_tag(Hotwire::Jasmine::SuiteFinder.resolve.map(&:to_h).reduce(:+).values) %>
+    <%= javascript_importmap_shim_nonce_configuration_tag %>
+    <%= javascript_importmap_shim_tag %>
+    <%= javascript_import_module_tag('hotwire/jasmine/application') %>
+    <%= action_cable_meta_tag %>
+    <%= stylesheet_link_tag 'https://ga.jspm.io/npm:jasmine-core@4.3.0/lib/jasmine-core/jasmine.css' %>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>
