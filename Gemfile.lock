@@ -177,7 +177,7 @@ GEM
     hotwire-livereload (1.2.3)
       listen (>= 3.0.0)
       rails (>= 6.0.0)
-    html_tokenizer (0.0.7)
+    html_tokenizer (0.0.8)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -224,7 +224,7 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
-    nio4r (2.5.8)
+    nio4r (2.7.4)
     nokogiri (1.14.0-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.14.0-x86_64-darwin)
@@ -440,6 +440,7 @@ GEM
 PLATFORMS
   arm64-darwin-21
   arm64-darwin-22
+  arm64-darwin-24
   x86_64-darwin-20
   x86_64-darwin-21
   x86_64-linux
@@ -463,6 +464,7 @@ DEPENDENCIES
   importmap-rails
   inline_svg!
   nanoid
+  nio4r (> 2.5.8)
   omniauth-google-oauth2
   omniauth-rails_csrf_protection
   paranoia
