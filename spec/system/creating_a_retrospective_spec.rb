@@ -34,7 +34,7 @@ RSpec.describe 'Creating a retrospective', :js do
     click_on 'Create Board'
 
     expect(page).to have_content("Today's Retro").and have_text(I18n.l(Time.now.getlocal.to_date, format: :long))
-    expect(page.find('main ul').all('li').size).to eq(15)
+    expect(page.find('main ul').all('li').size).to eq(16)
 
     scroll_to page.find('a', text: 'Next')
 
