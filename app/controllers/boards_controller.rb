@@ -154,10 +154,9 @@ class BoardsController < ApplicationController
   def create
     authorize(Board)
     @board = BoardForm.new(board_params.merge(board: Board.new(users: [current_user])))
-
     respond_to do |format|
       if @board.create(view_context)
-        format.turbo_stream { flash.now[:notice] = t('.success') }
+        format.turbo_stream { redirect_to boards_url, status: :see_other, notice: t('.success') }
         format.html { redirect_to boards_url, notice: t('.success') }
       else
         format.html { render :new, status: :unprocessable_entity }
