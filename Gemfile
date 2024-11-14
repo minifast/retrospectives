@@ -9,7 +9,7 @@ gem 'bootsnap', require: false
 gem 'pg', '~> 1.4'
 gem 'propshaft'
 gem 'puma', '~> 6.0'
-gem 'rails', '~> 7.0.8'
+gem 'rails', '~> 7.1.4'
 gem 'redis', '~> 5.0'
 
 gem 'devise'
@@ -51,14 +51,13 @@ end
 
 group :development do
   gem 'annotate'
-  gem 'hotwire-livereload', '~> 1.2'
-  gem 'pivotal_git_scripts'
+  gem 'hotwire-livereload'
   gem 'rack-mini-profiler'
   gem 'web-console'
 end
 
 group :test do
-  gem 'capybara', '>= 3.26'
+  gem 'capybara'
   gem 'cuprite'
-  gem 'shoulda-matchers', '~> 5.2'
+  gem 'shoulda-matchers'
 end

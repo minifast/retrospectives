@@ -353,9 +353,9 @@ RSpec.describe BoardsController do
         let!(:column) { create(:column) }
         let!(:other_column) { create(:column, board: board, name: 'Apathetic') }
 
-        it 'blows up' do
-          expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, _destroy: 1}, '1' => {id: other_column.id, name: 'Apathetic'}}) }
-            .to raise_error(ActiveRecord::RecordNotFound)
+        it 'is not found' do
+          make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, _destroy: 1}, '1' => {id: other_column.id, name: 'Apathetic'}})
+          expect(response).to be_not_found
         end
       end
 

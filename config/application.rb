@@ -19,7 +19,8 @@ Bundler.require(*Rails.groups)
 
 module Retrospectives
   class Application < Rails::Application
-    config.load_defaults 7.0
+    config.load_defaults 7.1
+    config.autoload_lib(ignore: %w(assets tasks))
     config.generators do |g|
       g.helper false
       g.assets false
