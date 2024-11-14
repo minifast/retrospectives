@@ -9,7 +9,7 @@ gem 'bootsnap', require: false
 gem 'pg', '~> 1.4'
 gem 'propshaft'
 gem 'puma', '~> 6.0'
-gem 'rails', '~> 7.0.3'
+gem 'rails', '~> 7.0.8'
 gem 'redis', '~> 5.0'
 
 gem 'devise'
