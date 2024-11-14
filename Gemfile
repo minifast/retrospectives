@@ -46,6 +46,7 @@ group :development, :test do
   gem 'rubocop-rails', require: false, group: :pronto
   gem 'rubocop-rspec', require: false, group: :pronto
   gem 'standard', group: :pronto
+  gem 'webrick', '>= 1.8.2'
 end
 
 group :development do
