@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Users::OmniauthCallbacksController, type: :request do
+RSpec.describe Users::OmniauthCallbacksController do
   describe 'GET #google_oauth2' do
     context 'when the user data is valid' do
       before do

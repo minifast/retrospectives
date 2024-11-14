@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Timer, type: :model do
+RSpec.describe Timer do
   subject(:timer) { build(:timer) }
 
   it { is_expected.to belong_to(:board).inverse_of(:timer) }

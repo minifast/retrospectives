@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'LandingsController', type: :request do
+RSpec.describe 'LandingsController' do
   describe 'GET #show' do
     it 'renders a login button' do
       get root_path

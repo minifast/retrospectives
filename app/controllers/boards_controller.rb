@@ -171,7 +171,7 @@ class BoardsController < ApplicationController
 
     respond_to do |format|
       if @board.update(view_context)
-        format.turbo_stream { flash.now[:notice] = t('.success') }
+        format.turbo_stream { redirect_to board_url(current_board), status: :see_other, notice: t('.success') }
         format.html { redirect_to board_url(current_board), notice: t('.success') }
       else
         format.html { render :edit, status: :unprocessable_entity }

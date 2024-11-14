@@ -27,5 +27,5 @@ RSpec.configure do |config|
   config.include Capybara::RSpecMatchers, type: :component
   config.include ViewComponent::TestHelpers, type: :component
   config.before(:each, type: :system) { driven_by(:rack_test) }
-  config.before(:each, type: :system, js: true) { driven_by(:cuprite) }
+  config.before(:each, js: true, type: :system) { driven_by(:cuprite) }
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Creating a retrospective', :js, type: :system do
+RSpec.describe 'Creating a retrospective', :js do
   before do
     OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(uid: '123545', info: {email: 'user@ministryofvelocity.com', name: 'Minifast User', image: 'https://placekitten.com/80/80'})
     Rails.application.env_config['omniauth.auth'] = OmniAuth.config.mock_auth[:google_oauth2]
@@ -34,13 +34,13 @@ RSpec.describe 'Creating a retrospective', :js, type: :system do
     click_on 'Create Board'
 
     expect(page).to have_content("Today's Retro").and have_text(I18n.l(Time.now.getlocal.to_date, format: :long))
-    expect(page.all('li').size).to eq(16)
+    expect(page.find('main ul').all('li').size).to eq(15)
 
     scroll_to page.find('a', text: 'Next')
 
-    expect(page).to have_no_link('Next')
+    expect(page).not_to have_link('Next')
 
-    expect(page.all('li').size).to eq(17)
+    expect(page.find('main ul').all('li').size).to eq(17)
 
     click_on "Today's Retro"
 

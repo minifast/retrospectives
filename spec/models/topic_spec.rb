@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Topic, type: :model do
+RSpec.describe Topic do
   subject(:topic) { build(:topic) }
 
   it { is_expected.to belong_to(:column).inverse_of(:topics) }
