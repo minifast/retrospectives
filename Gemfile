@@ -38,14 +38,14 @@ group :development, :test do
   gem 'erb_lint', require: false
   gem 'factory_bot_rails'
   gem 'pronto', require: false, group: :pronto
-  gem 'pronto-rubocop', require: false, group: :pronto
+  gem 'pronto-rubocop', '~> 0.11.5', require: false, group: :pronto
   gem 'pronto-erb_lint', github: 'tleish/pronto-erb_lint', ref: '4b49373451b3ff26cbdec0c85d130463838d7ae7', require: false, group: :pronto
   gem 'rspec-rails'
   gem 'rubocop-performance', require: false, group: :pronto
   gem 'rubocop-i18n', require: false, group: :pronto
   gem 'rubocop-rails', require: false, group: :pronto
-  gem 'rubocop-rspec', require: false, group: :pronto
-  gem 'standard', group: :pronto
+  gem 'rubocop-rspec', '~> 3.2', require: false, group: :pronto
+  gem 'standard', '~> 1.42', group: :pronto
   gem 'webrick', '>= 1.8.2'
 end
 
