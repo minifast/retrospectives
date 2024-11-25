@@ -8,7 +8,7 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem 'bootsnap', require: false
 gem 'pg', '~> 1.4'
 gem 'propshaft'
-gem 'puma', '~> 6.0'
+gem 'puma', '~> 6.5'
 gem 'rails', '~> 7.1.4'
 gem 'redis', '~> 5.0'
 
