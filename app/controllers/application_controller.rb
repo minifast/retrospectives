@@ -1,14 +1,14 @@
 class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
-  append_view_path Rails.root.join('app/components')
+  append_view_path Rails.root.join("app/components")
 
   private
 
   def guest_user_params
     {
-      image_url: '',
-      name: [Rails.application.config_for(:guest).adjectives.sample, Rails.application.config_for(:guest).animals.sample].join(' ')
+      image_url: "",
+      name: [Rails.application.config_for(:guest).adjectives.sample, Rails.application.config_for(:guest).animals.sample].join(" ")
     }
   end
 

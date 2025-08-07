@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe User do
   subject(:user) { build(:user) }
@@ -11,23 +11,23 @@ RSpec.describe User do
   it { is_expected.to validate_presence_of(:email) }
   it { is_expected.to validate_presence_of(:image_url) }
 
-  describe 'validations' do
-    context 'when the email address already exists' do
-      let(:user) { build(:user, email: 'awesome@example.com') }
+  describe "validations" do
+    context "when the email address already exists" do
+      let(:user) { build(:user, email: "awesome@example.com") }
 
-      before { create(:user, email: 'awesome@example.com') }
+      before { create(:user, email: "awesome@example.com") }
 
-      it 'is not valid' do
+      it "is not valid" do
         expect(user).not_to be_valid
       end
     end
 
-    context 'when the email address is unique' do
-      let(:user) { build(:user, email: 'awesome@example.com') }
+    context "when the email address is unique" do
+      let(:user) { build(:user, email: "awesome@example.com") }
 
-      before { create(:user, email: 'amazing@example.com') }
+      before { create(:user, email: "amazing@example.com") }
 
-      it 'is valid' do
+      it "is valid" do
         expect(user).to be_valid
       end
     end

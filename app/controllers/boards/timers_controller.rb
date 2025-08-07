@@ -55,16 +55,16 @@ class Boards::TimersController < ApplicationController
 
     respond_to do |format|
       if @timer.create(view_context)
-        format.turbo_stream { flash.now[:notice] = t('.success') }
-        format.html { redirect_to board_timer_url(current_board), notice: t('.success') }
+        format.turbo_stream { flash.now[:notice] = t(".success") }
+        format.html { redirect_to board_timer_url(current_board), notice: t(".success") }
       else
         format.html { render :show, status: :unprocessable_entity }
       end
     end
   rescue Pundit::NotAuthorizedError, ActiveRecord::RecordNotFound
     respond_to do |format|
-      format.turbo_stream { flash.now[:alert] = t('.alert') }
-      format.html { redirect_to board_timer_url(current_board), alert: t('.alert') }
+      format.turbo_stream { flash.now[:alert] = t(".alert") }
+      format.html { redirect_to board_timer_url(current_board), alert: t(".alert") }
     end
   end
 
@@ -74,16 +74,16 @@ class Boards::TimersController < ApplicationController
 
     respond_to do |format|
       if @timer.destroy(view_context)
-        format.turbo_stream { flash.now[:notice] = t('.success') }
-        format.html { redirect_to board_timer_url(current_board), notice: t('.success') }
+        format.turbo_stream { flash.now[:notice] = t(".success") }
+        format.html { redirect_to board_timer_url(current_board), notice: t(".success") }
       else
         format.html { redirect_to board_timer_url(current_board) }
       end
     end
   rescue Pundit::NotAuthorizedError, ActiveRecord::RecordNotFound
     respond_to do |format|
-      format.turbo_stream { flash.now[:alert] = t('.alert') }
-      format.html { redirect_to board_timer_url(current_board), alert: t('.alert') }
+      format.turbo_stream { flash.now[:alert] = t(".alert") }
+      format.html { redirect_to board_timer_url(current_board), alert: t(".alert") }
     end
   end
 

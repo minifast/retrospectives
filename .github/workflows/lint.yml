@@ -1,27 +1,26 @@
-name: Pronto
+name: Lint
 
 on: [pull_request]
 
 jobs:
-  pronto:
+  standard:
     runs-on: ubuntu-latest
 
     env:
       # Requires the relevant gems to have a separate group in `Gemfile`
       # At the time of writing there is no way to only install gems in specific group(s) by specifying the group name(s)
-      BUNDLE_WITHOUT: "default development test"
+      BUNDLE_WITHOUT: "production"
       # `MAKE="make --jobs $(nproc)"` is from
       # https://build.betterup.com/one-weird-trick-that-will-speed-up-your-bundle-install/
       # Only works for MRI
       #
       # Using 4 since https://github.com/ruby/setup-ruby use 4
       MAKE: "make --jobs 4"
+      BUNDLE_PATH: "vendor/bundle"
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - run: |
-          git fetch --no-tags --prune --depth=10 origin +refs/heads/*:refs/remotes/origin/*
 
       # If your project only specifies its Ruby version in its
       # Gemfile, you'll need to specify a version for the
@@ -32,9 +31,5 @@ jobs:
         with:
           bundler-cache: true
 
-      - name: Run Pronto
-        run: bundle exec pronto run -f github_status github_pr -c origin/${{ github.base_ref }}
-        env:
-          PRONTO_PULL_REQUEST_ID: ${{ github.event.pull_request.number }}
-          PRONTO_GITHUB_ACCESS_TOKEN: "${{ github.token }}"
-          BUNDLE_PATH: "vendor/bundle"
+      - name: Run Lint
+        run: bin/standardrb

@@ -24,13 +24,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def google_oauth2
-    google_user = GoogleUser.new(auth_hash: request.env['omniauth.auth'])
+    google_user = GoogleUser.new(auth_hash: request.env["omniauth.auth"])
 
     if google_user.save
-      flash[:notice] = I18n.t('devise.omniauth_callbacks.success', kind: 'Google')
+      flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: "Google")
       sign_in_and_redirect google_user.user, event: :authentication
     else
-      flash[:alert] = I18n.t('devise.omniauth_callbacks.failure', kind: 'Google', reason: google_user.user.errors.full_messages.join("\n"))
+      flash[:alert] = I18n.t("devise.omniauth_callbacks.failure", kind: "Google", reason: google_user.user.errors.full_messages.join("\n"))
       redirect_to root_path
     end
   end

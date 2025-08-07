@@ -1,6 +1,6 @@
-require 'capybara/cuprite'
-require 'capybara/rspec'
-require 'view_component/test_helpers'
+require "capybara/cuprite"
+require "capybara/rspec"
+require "view_component/test_helpers"
 
 Capybara.default_driver = :rack_test
 Capybara.javascript_driver = :cuprite
