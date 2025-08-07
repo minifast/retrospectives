@@ -58,3 +58,5 @@ group :test do
   gem "cuprite"
   gem "shoulda-matchers"
 end
+
+gem "solid_queue", "~> 1.2"
