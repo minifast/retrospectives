@@ -9,11 +9,11 @@ class Timer::Component < ApplicationComponent
 
   def time_remaining
     if duration_parts.length <= 1
-      ['0', duration_parts].join(':')
+      ["0", duration_parts].join(":")
     elsif duration_parts.last < 10
-      (duration_parts[0..-2] + ['%02d' % duration_parts.last]).join(':')
+      (duration_parts[0..-2] + ["%02d" % duration_parts.last]).join(":")
     else
-      duration_parts.join(':')
+      duration_parts.join(":")
     end
   end
 

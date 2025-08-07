@@ -1,10 +1,10 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe BoardsController do
   let(:user) { create(:user) }
 
-  describe 'GET #index' do
-    let!(:board) { create(:board, name: 'Thursday Retro') }
+  describe "GET #index" do
+    let!(:board) { create(:board, name: "Thursday Retro") }
 
     before { sign_in(user, scope: :user) }
 
@@ -12,33 +12,33 @@ RSpec.describe BoardsController do
       get boards_url
     end
 
-    context 'when the user is a guest' do
+    context "when the user is a guest" do
       let(:user) { create(:user, :guest) }
 
-      it 'blows up' do
+      it "blows up" do
         expect { make_request }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
 
-    context 'when the user is not a participant on the board' do
-      it 'renders a successful response' do
+    context "when the user is not a participant on the board" do
+      it "renders a successful response" do
         make_request
-        expect(page).to have_no_content('Thursday Retro')
+        expect(page).to have_no_content("Thursday Retro")
       end
     end
 
-    context 'when the user is a participant on the board' do
+    context "when the user is a participant on the board" do
       before { create(:board_user, board: board, user: user) }
 
-      it 'renders a successful response' do
+      it "renders a successful response" do
         make_request
-        expect(page).to have_content('Thursday Retro')
+        expect(page).to have_content("Thursday Retro")
       end
     end
   end
 
-  describe 'GET #show' do
-    let(:board) { create(:board, name: 'Thursday Retro') }
+  describe "GET #show" do
+    let(:board) { create(:board, name: "Thursday Retro") }
 
     before { sign_in(user, scope: :user) }
 
@@ -46,68 +46,68 @@ RSpec.describe BoardsController do
       get board_url(id)
     end
 
-    context 'when the user is not a participant on the board' do
-      it 'blows up' do
+    context "when the user is not a participant on the board" do
+      it "blows up" do
         expect { make_request(board.id) }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
 
-    context 'when the user is a participant on the board' do
+    context "when the user is a participant on the board" do
       before { create(:board_user, board: board, user: user) }
 
-      it 'renders a successful response' do
+      it "renders a successful response" do
         make_request(board.id)
-        expect(page).to have_content('Thursday Retro')
+        expect(page).to have_content("Thursday Retro")
       end
     end
   end
 
-  describe 'GET #new' do
+  describe "GET #new" do
     before { sign_in(user, scope: :user) }
 
     def make_request
       get new_board_url
     end
 
-    it 'renders a successful response' do
+    it "renders a successful response" do
       make_request
-      expect(page).to have_field('Board name').and have_button('Create Board')
-        .and have_field('Column name', with: 'Happy').and have_field('Column name', with: 'Meh').and have_field('Column name', with: 'Sad')
-        .and have_button('Add Column').and have_button('Remove Column')
+      expect(page).to have_field("Board name").and have_button("Create Board")
+        .and have_field("Column name", with: "Happy").and have_field("Column name", with: "Meh").and have_field("Column name", with: "Sad")
+        .and have_button("Add Column").and have_button("Remove Column")
     end
 
-    it 'does not accidentally create a board' do
+    it "does not accidentally create a board" do
       expect do
         make_request
       end.not_to change(Board, :count)
     end
 
-    it 'does not accidentally create a column' do
+    it "does not accidentally create a column" do
       expect do
         make_request
       end.not_to change(Column, :count)
     end
 
-    it 'does not accidentally connect a board to a user' do
+    it "does not accidentally connect a board to a user" do
       expect do
         make_request
       end.not_to change(BoardUser, :count)
     end
 
-    context 'when the user is a guest' do
+    context "when the user is a guest" do
       let(:user) { create(:user, :guest) }
 
-      it 'blows up' do
+      it "blows up" do
         expect { make_request }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
   end
 
-  describe 'GET #edit' do
-    let(:board) { create(:board, name: 'Thursday Retro') }
+  describe "GET #edit" do
+    let(:board) { create(:board, name: "Thursday Retro") }
 
     before do
-      create(:column, board: board, name: 'Good')
+      create(:column, board: board, name: "Good")
       sign_in(user, scope: :user)
     end
 
@@ -115,127 +115,127 @@ RSpec.describe BoardsController do
       get edit_board_url(id)
     end
 
-    context 'when the user is not a participant on the board' do
-      it 'blows up' do
+    context "when the user is not a participant on the board" do
+      it "blows up" do
         expect { make_request(board.id) }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
 
-    context 'when the user is a participant on the board' do
+    context "when the user is a participant on the board" do
       before { create(:board_user, board: board, user: user) }
 
-      it 'renders a successful response' do
+      it "renders a successful response" do
         make_request(board.id)
-        expect(page).to have_field('Board name', with: 'Thursday Retro')
-          .and have_field('Column name', with: 'Good')
-          .and have_button('Add Column').and have_button('Remove Column')
-          .and have_button('Update Board')
+        expect(page).to have_field("Board name", with: "Thursday Retro")
+          .and have_field("Column name", with: "Good")
+          .and have_button("Add Column").and have_button("Remove Column")
+          .and have_button("Update Board")
       end
     end
 
-    context 'when the user is a guest' do
+    context "when the user is a guest" do
       let(:user) { create(:user, :guest) }
 
       before { create(:board_user, board: board, user: user) }
 
-      it 'blows up' do
+      it "blows up" do
         expect { make_request(board.id) }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
   end
 
-  describe 'POST #create' do
+  describe "POST #create" do
     before { sign_in(user, scope: :user) }
 
     def make_request(attributes)
       post boards_url, params: {board: attributes}
     end
 
-    context 'with valid parameters' do
-      it 'creates a new board' do
+    context "with valid parameters" do
+      it "creates a new board" do
         expect do
-          make_request(name: 'Thursday Retro', columns_attributes: {'0' => {name: 'Happy'}})
+          make_request(name: "Thursday Retro", columns_attributes: {"0" => {name: "Happy"}})
         end.to change(Column, :count).by(1).and change(Board, :count).by(1).and change(BoardUser, :count).by(1)
       end
 
-      it 'redirects to the board list' do
-        make_request(name: 'Thursday Retro', columns_attributes: {'0' => {name: 'Happy'}})
+      it "redirects to the board list" do
+        make_request(name: "Thursday Retro", columns_attributes: {"0" => {name: "Happy"}})
         expect(response).to redirect_to(boards_url)
       end
 
-      it 'sends a board to the user channel' do
-        expect { make_request(name: 'Thursday Retro', columns_attributes: {'0' => {name: 'Happy'}}) }
+      it "sends a board to the user channel" do
+        expect { make_request(name: "Thursday Retro", columns_attributes: {"0" => {name: "Happy"}}) }
           .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob)
-          .with(user.to_gid_param, hash_including(action: :prepend, target: dom_id(user, :boards), html: a_string_including('Thursday Retro')))
+          .with(user.to_gid_param, hash_including(action: :prepend, target: dom_id(user, :boards), html: a_string_including("Thursday Retro")))
       end
     end
 
-    context 'with invalid parameters' do
-      it 'does not create a new Board' do
-        expect { make_request(name: '') }.not_to change(Board, :count)
+    context "with invalid parameters" do
+      it "does not create a new Board" do
+        expect { make_request(name: "") }.not_to change(Board, :count)
       end
 
-      it 'is unsuccessful' do
-        make_request(name: '')
+      it "is unsuccessful" do
+        make_request(name: "")
         expect(response).not_to be_successful
       end
 
-      it 'renders an error message' do
-        make_request(name: '')
+      it "renders an error message" do
+        make_request(name: "")
         expect(page).to have_content("Board name can't be blank")
           .and have_content("Columns can't be blank")
       end
     end
 
-    context 'with an invalid column' do
-      it 'does not create a new Board' do
-        expect { make_request(name: 'Charcuterie', columns_attributes: {'0' => {name: ''}}) }.not_to change(Board, :count)
+    context "with an invalid column" do
+      it "does not create a new Board" do
+        expect { make_request(name: "Charcuterie", columns_attributes: {"0" => {name: ""}}) }.not_to change(Board, :count)
       end
 
-      it 'is unsuccessful' do
-        make_request(name: 'Charcuterie', columns_attributes: {'0' => {name: ''}})
+      it "is unsuccessful" do
+        make_request(name: "Charcuterie", columns_attributes: {"0" => {name: ""}})
         expect(response).not_to be_successful
       end
 
-      it 'renders an error message' do
-        make_request(name: 'Charcuterie', columns_attributes: {'0' => {name: ''}})
+      it "renders an error message" do
+        make_request(name: "Charcuterie", columns_attributes: {"0" => {name: ""}})
         expect(page).to have_content("Column name can't be blank")
       end
     end
 
-    context 'when the user is a guest' do
+    context "when the user is a guest" do
       let(:user) { create(:user, :guest) }
 
-      it 'blows up' do
+      it "blows up" do
         expect do
-          make_request(name: 'Thursday Retro', columns_attributes: {'0' => {name: 'Happy'}})
+          make_request(name: "Thursday Retro", columns_attributes: {"0" => {name: "Happy"}})
         end.to raise_error(Pundit::NotAuthorizedError)
       end
     end
   end
 
-  describe 'POST #create.turbo_stream' do
+  describe "POST #create.turbo_stream" do
     before { sign_in(user, scope: :user) }
 
     def make_request(attributes)
-      post boards_url, params: {board: attributes}, headers: {Accept: Mime['turbo_stream'].to_s}
+      post boards_url, params: {board: attributes}, headers: {Accept: Mime["turbo_stream"].to_s}
     end
 
-    context 'with valid parameters' do
-      it 'creates a new Board' do
-        expect { make_request(name: 'Thursday Retro', columns_attributes: {'0' => {name: 'Happy'}}) }.to change(Board, :count).by(1)
+    context "with valid parameters" do
+      it "creates a new Board" do
+        expect { make_request(name: "Thursday Retro", columns_attributes: {"0" => {name: "Happy"}}) }.to change(Board, :count).by(1)
       end
 
-      it 'redirects to the boards index' do
-        make_request(name: 'Thursday Retro', columns_attributes: {'0' => {name: 'Happy'}})
+      it "redirects to the boards index" do
+        make_request(name: "Thursday Retro", columns_attributes: {"0" => {name: "Happy"}})
         expect(response).to redirect_to(boards_url)
       end
     end
   end
 
-  describe 'PATCH #update' do
-    let(:board) { create(:board, name: 'Monday Retro') }
-    let!(:column) { create(:column, board: board, name: 'Happy') }
+  describe "PATCH #update" do
+    let(:board) { create(:board, name: "Monday Retro") }
+    let!(:column) { create(:column, board: board, name: "Happy") }
 
     before { sign_in(user, scope: :user) }
 
@@ -243,141 +243,141 @@ RSpec.describe BoardsController do
       patch board_url(id), params: {board: attributes}
     end
 
-    context 'when the user is not a participant on the board' do
-      it 'blows up' do
+    context "when the user is not a participant on the board" do
+      it "blows up" do
         expect do
-          make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}})
+          make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}})
         end.to raise_error(Pundit::NotAuthorizedError)
       end
     end
 
-    context 'when the user is a guest' do
+    context "when the user is a guest" do
       let(:user) { create(:user, :guest) }
 
       before { create(:board_user, board: board, user: user) }
 
-      it 'blows up' do
+      it "blows up" do
         expect do
-          make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}})
+          make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}})
         end.to raise_error(Pundit::NotAuthorizedError)
       end
     end
 
-    context 'when the user is a participant on the board' do
+    context "when the user is a participant on the board" do
       before { create(:board_user, board: board, user: user) }
 
-      context 'with valid parameters' do
-        it 'updates the requested board' do
-          make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}})
-          expect(board.reload.attributes.symbolize_keys).to include(name: 'Friday Retro')
+      context "with valid parameters" do
+        it "updates the requested board" do
+          make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}})
+          expect(board.reload.attributes.symbolize_keys).to include(name: "Friday Retro")
         end
 
-        it 'updates the requested column' do
-          make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}})
-          expect(column.reload.attributes.symbolize_keys).to include(name: 'I like')
+        it "updates the requested column" do
+          make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}})
+          expect(column.reload.attributes.symbolize_keys).to include(name: "I like")
         end
 
-        it 'redirects to the board' do
-          make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}})
+        it "redirects to the board" do
+          make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}})
           expect(response).to redirect_to(board_url(board))
         end
 
-        it 'broadcasts to replace a board on the user channel' do
-          expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }
+        it "broadcasts to replace a board on the user channel" do
+          expect { make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}}) }
             .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once
-            .with(user.to_gid_param, hash_including(action: :replace, html: a_string_including('Friday Retro'), target: dom_id(user, :boards)))
+            .with(user.to_gid_param, hash_including(action: :replace, html: a_string_including("Friday Retro"), target: dom_id(user, :boards)))
         end
 
-        it 'broadcasts to replace a board on its header channel' do
-          expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }
+        it "broadcasts to replace a board on its header channel" do
+          expect { make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}}) }
             .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once
-            .with(board.to_gid_param, hash_including(action: :replace, html: a_string_including('Friday Retro'), target: dom_id(board, 'header')))
+            .with(board.to_gid_param, hash_including(action: :replace, html: a_string_including("Friday Retro"), target: dom_id(board, "header")))
         end
 
-        it 'broadcasts to replace columns on its tabs channel' do
-          expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }
+        it "broadcasts to replace columns on its tabs channel" do
+          expect { make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}}) }
             .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once
-            .with(board.to_gid_param, hash_including(action: :replace, html: a_string_including('I like'), target: dom_id(board, 'tabs')))
+            .with(board.to_gid_param, hash_including(action: :replace, html: a_string_including("I like"), target: dom_id(board, "tabs")))
         end
 
-        it 'broadcasts to a board to replace a column' do
-          expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }
+        it "broadcasts to a board to replace a column" do
+          expect { make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}}) }
             .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once
-            .with(board.to_gid_param, hash_including(action: :replace, html: a_string_including('I like'), target: dom_id(column)))
+            .with(board.to_gid_param, hash_including(action: :replace, html: a_string_including("I like"), target: dom_id(column)))
         end
 
-        it 'broadcasts to a board to add a column' do
-          expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}, '1' => {name: 'I wish'}}) }
+        it "broadcasts to a board to add a column" do
+          expect { make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}, "1" => {name: "I wish"}}) }
             .to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once
-            .with(board.to_gid_param, hash_including(action: :append, html: a_string_including('I wish'), target: dom_id(board, :columns)))
+            .with(board.to_gid_param, hash_including(action: :append, html: a_string_including("I wish"), target: dom_id(board, :columns)))
         end
       end
 
-      context 'with a valid column' do
-        it 'creates a new column' do
-          expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}, '1' => {name: 'I wish'}}) }
+      context "with a valid column" do
+        it "creates a new column" do
+          expect { make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}, "1" => {name: "I wish"}}) }
             .to change(Column, :count).by(1)
         end
       end
 
-      context 'when deleting the last column' do
-        it 'does not delete any columns' do
+      context "when deleting the last column" do
+        it "does not delete any columns" do
           expect do
-            make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, _destroy: 1}})
+            make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, _destroy: 1}})
           end.not_to change(Column, :count)
         end
 
-        it 'is unsuccessful' do
-          make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, _destroy: 1}})
+        it "is unsuccessful" do
+          make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, _destroy: 1}})
           expect(response).not_to be_successful
         end
       end
 
-      context 'with a deleted column' do
-        let!(:other_column) { create(:column, board: board, name: 'Apathetic') }
+      context "with a deleted column" do
+        let!(:other_column) { create(:column, board: board, name: "Apathetic") }
 
-        it 'deletes a column' do
+        it "deletes a column" do
           expect do
-            make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, _destroy: 1}, '1' => {id: other_column.id, name: 'Apathetic'}})
+            make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, _destroy: 1}, "1" => {id: other_column.id, name: "Apathetic"}})
           end.to change(Column, :count).by(-1)
         end
 
-        it 'broadcasts to a board to remove a column' do
-          expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, _destroy: 1}, '1' => {id: other_column.id, name: 'Apathetic'}}) }
+        it "broadcasts to a board to remove a column" do
+          expect { make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, _destroy: 1}, "1" => {id: other_column.id, name: "Apathetic"}}) }
             .to have_broadcasted_to(board.to_gid_param).once
-            .with(a_string_including('remove').and(a_string_including(dom_id(column))))
+            .with(a_string_including("remove").and(a_string_including(dom_id(column))))
         end
       end
 
-      context 'when attempting to delete a column on another board' do
+      context "when attempting to delete a column on another board" do
         let!(:column) { create(:column) }
-        let!(:other_column) { create(:column, board: board, name: 'Apathetic') }
+        let!(:other_column) { create(:column, board: board, name: "Apathetic") }
 
-        it 'is not found' do
-          make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, _destroy: 1}, '1' => {id: other_column.id, name: 'Apathetic'}})
+        it "is not found" do
+          make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, _destroy: 1}, "1" => {id: other_column.id, name: "Apathetic"}})
           expect(response).to be_not_found
         end
       end
 
-      context 'with an invalid column' do
-        it 'is not successful' do
-          make_request(board.id, columns_attributes: [name: ''])
+      context "with an invalid column" do
+        it "is not successful" do
+          make_request(board.id, columns_attributes: [name: ""])
           expect(response).not_to be_successful
         end
       end
 
-      context 'with invalid parameters' do
-        it 'is not successful' do
-          make_request(board.id, name: '')
+      context "with invalid parameters" do
+        it "is not successful" do
+          make_request(board.id, name: "")
           expect(response).not_to be_successful
         end
       end
     end
   end
 
-  describe 'PATCH #update.turbo_stream' do
+  describe "PATCH #update.turbo_stream" do
     let(:board) { create(:board) }
-    let!(:column) { create(:column, board: board, name: 'Happy') }
+    let!(:column) { create(:column, board: board, name: "Happy") }
 
     before do
       create(:board_user, board: board, user: user)
@@ -385,42 +385,42 @@ RSpec.describe BoardsController do
     end
 
     def make_request(id, attributes)
-      patch board_url(id), params: {board: attributes}, headers: {Accept: Mime['turbo_stream'].to_s}
+      patch board_url(id), params: {board: attributes}, headers: {Accept: Mime["turbo_stream"].to_s}
     end
 
-    it 'updates the requested board' do
-      make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}})
-      expect(board.reload.attributes.symbolize_keys).to include(name: 'Friday Retro')
+    it "updates the requested board" do
+      make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}})
+      expect(board.reload.attributes.symbolize_keys).to include(name: "Friday Retro")
     end
 
-    it 'broadcasts to replace a board on the user channel' do
-      expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once.with(
+    it "broadcasts to replace a board on the user channel" do
+      expect { make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}}) }.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once.with(
         user.to_gid_param,
-        hash_including(action: :replace, html: a_string_including('Friday Retro'), target: dom_id(user, :boards))
+        hash_including(action: :replace, html: a_string_including("Friday Retro"), target: dom_id(user, :boards))
       )
     end
 
-    it 'broadcasts to replace a board on its header channel' do
-      expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once.with(
+    it "broadcasts to replace a board on its header channel" do
+      expect { make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}}) }.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once.with(
         board.to_gid_param,
-        hash_including(action: :replace, html: a_string_including('Friday Retro'), target: dom_id(board, 'header'))
+        hash_including(action: :replace, html: a_string_including("Friday Retro"), target: dom_id(board, "header"))
       )
     end
 
-    it 'broadcasts to replace a board on its tabs channel' do
-      expect { make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}}) }.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once.with(
+    it "broadcasts to replace a board on its tabs channel" do
+      expect { make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}}) }.to have_enqueued_job(Turbo::Streams::ActionBroadcastJob).once.with(
         board.to_gid_param,
-        hash_including(action: :replace, html: a_string_including('I like'), target: dom_id(board, 'tabs'))
+        hash_including(action: :replace, html: a_string_including("I like"), target: dom_id(board, "tabs"))
       )
     end
 
-    it 'redirects to the board' do
-      make_request(board.id, name: 'Friday Retro', columns_attributes: {'0' => {id: column.id, name: 'I like'}})
+    it "redirects to the board" do
+      make_request(board.id, name: "Friday Retro", columns_attributes: {"0" => {id: column.id, name: "I like"}})
       expect(response).to redirect_to(board_url(board))
     end
   end
 
-  describe 'DELETE #destroy' do
+  describe "DELETE #destroy" do
     let(:board) { create(:board) }
 
     before do
@@ -432,32 +432,32 @@ RSpec.describe BoardsController do
       delete board_url(id)
     end
 
-    context 'when the user is not a participant on the board' do
-      it 'blows up' do
+    context "when the user is not a participant on the board" do
+      it "blows up" do
         expect { make_request(board.id) }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
 
-    context 'when the user is a guest' do
+    context "when the user is a guest" do
       let(:user) { create(:user, :guest) }
 
       before { create(:board_user, board: board, user: user) }
 
-      it 'blows up' do
+      it "blows up" do
         expect { make_request(board.id) }.to raise_error(Pundit::NotAuthorizedError)
       end
     end
 
-    context 'when the user is a participant on the board' do
+    context "when the user is a participant on the board" do
       before { create(:board_user, board: board, user: user) }
 
-      it 'destroys the requested board' do
+      it "destroys the requested board" do
         expect { make_request(board.id) }
           .to change(Board, :count).by(-1)
           .and change(Column, :count).by(-1)
       end
 
-      it 'redirects to the boards list' do
+      it "redirects to the boards list" do
         make_request(board.id)
         expect(response).to redirect_to(boards_url)
       end

@@ -1,10 +1,10 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'LandingsController' do
-  describe 'GET #show' do
-    it 'renders a login button' do
+RSpec.describe "LandingsController" do
+  describe "GET #show" do
+    it "renders a login button" do
       get root_path
-      expect(page).to have_content('Retrospectives').and have_button('Sign in')
+      expect(page).to have_content("Retrospectives").and have_button("Sign in")
     end
   end
 end

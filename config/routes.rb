@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {omniauth_callbacks: 'users/omniauth_callbacks'}
+  devise_for :users, controllers: {omniauth_callbacks: "users/omniauth_callbacks"}
 
   resources :boards do
     resources :shares, only: [:show], param: :share_token, module: :boards
@@ -16,8 +16,8 @@ Rails.application.routes.draw do
   end
 
   authenticated :user do
-    root to: 'boards#index', as: :user_root
+    root to: "boards#index", as: :user_root
   end
 
-  root to: 'landings#show'
+  root to: "landings#show"
 end

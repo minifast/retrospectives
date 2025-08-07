@@ -9,7 +9,7 @@ class AddOrderToColumns < ActiveRecord::Migration[7.0]
     end
 
     reversible do |dir|
-      dir.up { Column20220806.update_all('column_order = EXTRACT(EPOCH FROM created_at)') }
+      dir.up { Column20220806.update_all("column_order = EXTRACT(EPOCH FROM created_at)") }
     end
   end
 end

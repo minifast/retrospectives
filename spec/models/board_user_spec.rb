@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe BoardUser do
   subject(:board_user) { build(:board_user) }

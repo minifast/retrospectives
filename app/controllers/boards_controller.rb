@@ -139,9 +139,9 @@ class BoardsController < ApplicationController
   def new
     authorize(Board)
     @board = BoardForm.new(board: Board.new(users: [current_user]), columns: [
-      ColumnForm.new(name: 'Happy'),
-      ColumnForm.new(name: 'Meh'),
-      ColumnForm.new(name: 'Sad')
+      ColumnForm.new(name: "Happy"),
+      ColumnForm.new(name: "Meh"),
+      ColumnForm.new(name: "Sad")
     ])
   end
 
@@ -156,8 +156,8 @@ class BoardsController < ApplicationController
     @board = BoardForm.new(board_params.merge(board: Board.new(users: [current_user])))
     respond_to do |format|
       if @board.create(view_context)
-        format.turbo_stream { redirect_to boards_url, status: :see_other, notice: t('.success') }
-        format.html { redirect_to boards_url, notice: t('.success') }
+        format.turbo_stream { redirect_to boards_url, status: :see_other, notice: t(".success") }
+        format.html { redirect_to boards_url, notice: t(".success") }
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -170,8 +170,8 @@ class BoardsController < ApplicationController
 
     respond_to do |format|
       if @board.update(view_context)
-        format.turbo_stream { redirect_to board_url(current_board), status: :see_other, notice: t('.success') }
-        format.html { redirect_to board_url(current_board), notice: t('.success') }
+        format.turbo_stream { redirect_to board_url(current_board), status: :see_other, notice: t(".success") }
+        format.html { redirect_to board_url(current_board), notice: t(".success") }
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -183,7 +183,7 @@ class BoardsController < ApplicationController
     current_board.destroy
 
     respond_to do |format|
-      format.html { redirect_to boards_url, notice: t('.success') }
+      format.html { redirect_to boards_url, notice: t(".success") }
     end
   end
 
