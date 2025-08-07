@@ -2,8 +2,8 @@
 
 An application to create retro boards
 
-* Ruby version - 3.1.2
-* Rails version - 7.0.0
+* Ruby version - 3.4.4
+* Rails version - 7.1.5
 
 
 # Setting up Google
