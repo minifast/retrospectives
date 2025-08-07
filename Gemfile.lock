@@ -288,7 +288,7 @@ GEM
     psych (5.2.0)
       stringio
     public_suffix (6.0.2)
-    puma (6.4.3)
+    puma (6.6.1)
       nio4r (~> 2.0)
     pundit (2.4.0)
       activesupport (>= 3.0.0)
@@ -512,7 +512,7 @@ DEPENDENCIES
   paranoia
   pg (~> 1.4)
   propshaft
-  puma (~> 6.0)
+  puma (~> 6.6)
   pundit
   rack-mini-profiler
   rails (~> 7.1.4)
